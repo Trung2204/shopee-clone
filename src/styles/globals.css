@@ -39,3 +39,11 @@ body {
   padding-left: 1rem;
   padding-right: 1rem;
 }
+
+.divider {
+  /* my-4 h-[1px] bg-gray-300 */
+  margin-top: 16px;
+  margin-bottom: 16px;
+  height: 1.5px;
+  background-color: #D1D5DB;
+}

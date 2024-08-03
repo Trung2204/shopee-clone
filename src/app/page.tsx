@@ -1,16 +1,17 @@
 import Header from "@/components/Header";
 import Main from "@/components/Main";
 import Footer from "@/components/Footer";
+import { Fragment } from "react";
 
 export default function Home() {
   return (
-    <section className="w-full flex-center flex-col justify-between">
+    <Fragment>
       {/* Header */}
       <Header />
       {/* Main Body */}
       <Main />
       {/* Footer */}
       <Footer />
-    </section>
+    </Fragment>
   );
 }

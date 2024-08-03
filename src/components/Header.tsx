@@ -10,47 +10,54 @@ const Header: FC = () => {
   const handleSearchChange = (e: ChangeEvent) => {};
 
   return (
-    <header className="sticky-header bg-orange-primary">
-      <div className="main-content py-2">
-        <nav className="nav-bar">
-          <div className="main-content flex items-center gap-4 mx-[62px] justify-end">
-            {/* Sign up */}
-            <button type="button" onClick={() => {}}>
-              Sign up
-            </button>
-            <span>|</span>
-            {/* Sign in */}
-            <button type="button" onClick={() => signIn()}>
-              Sign in
-            </button>
-          </div>
+    <header className="sticky-header bg-orange-primary text-white py-2">
+      <div className="main-content">
+        <nav className="nav-bar flex items-center gap-4 justify-end">
+          {/* Sign up */}
+          <button
+            type="button"
+            onClick={() => {}}
+            className="text-base font-semibold hover:text-white/70"
+          >
+            Sign up
+          </button>
+          <div className="h-4 border-r-[1.5px] border-r-white"></div>
+          {/* Sign in */}
+          <button
+            type="button"
+            onClick={() => {}}
+            className="text-base font-semibold hover:text-white/70"
+          >
+            Sign in
+          </button>
         </nav>
-        <div className="logo-with-search-bar-and-cart">
-          <div className="main-content flex items-center justify-between py-4 mx-[62px]">
-            {/* Logo */}
-            <Link href="/" className="flex items-center gap-2">
-              <Image
-                src="../../assets/images/logo.svg"
-                alt="Shopee Logo"
-                width={50}
-                height={50}
-                className="object-contain"
-              />
-              <span className="logo-text text-white text-2xl font-bold">
-                Shopee
-              </span>
-            </Link>
 
-            {/* Search bar */}
-            <form className="search-bar w-[840px] bg-white flex flex-center p-1">
+        <div className="logo-with-search-bar-and-cart grid grid-cols-12 items-center gap-4 py-4">
+          {/* Logo */}
+          <Link href="/" className="col-span-2 flex items-center gap-2">
+            <Image
+              src="../../assets/images/logo.svg"
+              alt="Shopee Logo"
+              width={50}
+              height={50}
+              className="object-contain"
+            />
+            <span className="logo-text text-white text-2xl font-bold">
+              Shopee
+            </span>
+          </Link>
+
+          {/* Search bar */}
+          <form className="search-bar col-span-9">
+            <div className="flex rounded-sm bg-white p-1">
               <input
                 type="text"
                 placeholder="Search on Shopee"
                 value={searchText}
                 onChange={handleSearchChange}
-                className="w-full ml-2"
+                className="flex-grow border-none bg-transparent px-3 py-2 text-black outline-none"
               />
-              <button className="right-0 top-0 bg-orange-primary px-6 py-2">
+              <button className="flex-shrink-0 rounded-sm bg-orange-primary px-6 py-2 hover:opacity-90">
                 <Image
                   src="../../assets/icons/search.svg"
                   alt="Search Icon"
@@ -58,15 +65,19 @@ const Header: FC = () => {
                   height={25}
                 />
               </button>
-            </form>
+            </div>
+          </form>
 
-            {/* Shopping Cart */}
-            <Image
-              src="../../assets/icons/shopping-cart.svg"
-              alt="Shopping Cart Icon"
-              width={40}
-              height={40}
-            />
+          {/* Shopping Cart */}
+          <div className="col-span-1 justify-self-end">
+            <a href="/">
+              <Image
+                src="../../assets/icons/shopping-cart.svg"
+                alt="Shopping Cart Icon"
+                width={40}
+                height={40}
+              />
+            </a>
           </div>
         </div>
       </div>
