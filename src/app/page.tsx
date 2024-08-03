@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
-    <section className="w-full flex-center flex-col">
+    <section className="w-full flex-center flex-col justify-between">
       {/* Header */}
       <Header />
       {/* Main Body */}

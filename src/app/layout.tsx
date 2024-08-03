@@ -5,6 +5,10 @@ export const metadata: Metadata = {
   title: "Shopee Clone",
   description: "Browse & Spend Money",
 };
+export const viewport = {
+  width: "device-width",
+  initialScale: 1.0,
+};
 
 export default function RootLayout({
   children,

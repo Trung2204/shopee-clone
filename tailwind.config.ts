@@ -10,11 +10,12 @@ const config: Config = {
     extend: {
       colors: {
         orange:{
-          primary: "#fb6445"
+          primary: "#ee4d2d"
         },
         red: {
 
         },
+        white: "#f5f5f5"
       }
     },
   },
