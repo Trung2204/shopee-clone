@@ -36,7 +36,7 @@ const Header: FC = () => {
           {/* Logo */}
           <Link href="/" className="col-span-2 flex items-center gap-2">
             <Image
-              src="../../assets/images/logo.svg"
+              src="/assets/images/logo.svg"
               alt="Shopee Logo"
               width={50}
               height={50}
@@ -59,7 +59,7 @@ const Header: FC = () => {
               />
               <button className="flex-shrink-0 rounded-sm bg-orange-primary px-6 py-2 hover:opacity-90">
                 <Image
-                  src="../../assets/icons/search.svg"
+                  src="/assets/icons/search.svg"
                   alt="Search Icon"
                   width={25}
                   height={25}
@@ -72,7 +72,7 @@ const Header: FC = () => {
           <div className="col-span-1 justify-self-end">
             <a href="/">
               <Image
-                src="../../assets/icons/shopping-cart.svg"
+                src="/assets/icons/shopping-cart.svg"
                 alt="Shopping Cart Icon"
                 width={40}
                 height={40}
