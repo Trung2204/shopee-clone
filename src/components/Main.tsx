@@ -1,12 +1,18 @@
 "use client";
 
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, FormEvent } from "react";
 import Image from "next/image";
 import { useState } from "react";
+import Link from "next/link";
 
 const Main = () => {
   const [searchText, setsearchText] = useState("");
   const handleSearchChange = (e: ChangeEvent) => {};
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    // Handle the form submission logic here
+    console.log("Form submitted");
+  };
 
   const starData = [
     { full: 5, empty: 0 },
@@ -16,12 +22,228 @@ const Main = () => {
     { full: 1, empty: 4 },
   ];
 
+  const productItems = Array.from({ length: 20 }, (_, index) => (
+    <div key={index} className="col-span-1">
+      <Link href="/">
+        <div className="overflow-hidden rounded-sm bg-white shadow transition-transform duration-100 hover:translate-y-[-0.04rem] hover:shadow-md">
+          <div className="relative w-full pt-[100%]">
+            <Image
+              src="/assets/images/samsung-s24-ultra.jpeg"
+              alt="Smartphone"
+              width={1024}
+              height={1024}
+              className="absolute left-0 top-0 h-full w-full bg-white object-cover"
+            />
+          </div>
+          <div className="overflow-hidden p-2">
+            <div className="min-h-[2rem] text-xs line-clamp-2">
+              Samsung Galaxy S24 Ultra 12GB 256GB
+            </div>
+            <div className="mt-3 flex items-center">
+              <div className="max-w-[50%] truncate text-gray-500 line-through">
+                <span className="text-xs">₫</span>
+                <span className="text-sm">3.990.000</span>
+              </div>
+              <div className="ml-1 truncate text-orange-primary">
+                <span className="text-xs">₫</span>
+                <span className="text-sm">3.990.000</span>
+              </div>
+            </div>
+            <div className="mt-3 flex items-center justify-end">
+              <div className="flex items-center">
+                <div className="relative">
+                  <div
+                    className="absolute left-0 top-0 h-full overflow-hidden"
+                    style={{ width: "100%" }}
+                  >
+                    <svg
+                      enableBackground="new 0 0 15 15"
+                      viewBox="0 0 15 15"
+                      x="0"
+                      y="0"
+                      className="h-3 w-3 fill-yellow-300 text-yellow-300"
+                    >
+                      <polygon
+                        points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeMiterlimit="10"
+                      ></polygon>
+                    </svg>
+                  </div>
+                  <svg
+                    enableBackground="new 0 0 15 15"
+                    viewBox="0 0 15 15"
+                    x="0"
+                    y="0"
+                    className="h-3 w-3 fill-current text-gray-300"
+                  >
+                    <polygon
+                      points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeMiterlimit="10"
+                    ></polygon>
+                  </svg>
+                </div>
+                <div className="relative">
+                  <div
+                    className="absolute left-0 top-0 h-full overflow-hidden"
+                    style={{ width: "100%" }}
+                  >
+                    <svg
+                      enableBackground="new 0 0 15 15"
+                      viewBox="0 0 15 15"
+                      x="0"
+                      y="0"
+                      className="h-3 w-3 fill-yellow-300 text-yellow-300"
+                    >
+                      <polygon
+                        points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeMiterlimit="10"
+                      ></polygon>
+                    </svg>
+                  </div>
+                  <svg
+                    enableBackground="new 0 0 15 15"
+                    viewBox="0 0 15 15"
+                    x="0"
+                    y="0"
+                    className="h-3 w-3 fill-current text-gray-300"
+                  >
+                    <polygon
+                      points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeMiterlimit="10"
+                    ></polygon>
+                  </svg>
+                </div>
+                <div className="relative">
+                  <div
+                    className="absolute left-0 top-0 h-full overflow-hidden"
+                    style={{ width: "100%" }}
+                  >
+                    <svg
+                      enableBackground="new 0 0 15 15"
+                      viewBox="0 0 15 15"
+                      x="0"
+                      y="0"
+                      className="h-3 w-3 fill-yellow-300 text-yellow-300"
+                    >
+                      <polygon
+                        points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeMiterlimit="10"
+                      ></polygon>
+                    </svg>
+                  </div>
+                  <svg
+                    enableBackground="new 0 0 15 15"
+                    viewBox="0 0 15 15"
+                    x="0"
+                    y="0"
+                    className="h-3 w-3 fill-current text-gray-300"
+                  >
+                    <polygon
+                      points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeMiterlimit="10"
+                    ></polygon>
+                  </svg>
+                </div>
+                <div className="relative">
+                  <div
+                    className="absolute left-0 top-0 h-full overflow-hidden"
+                    style={{ width: "100%" }}
+                  >
+                    <svg
+                      enableBackground="new 0 0 15 15"
+                      viewBox="0 0 15 15"
+                      x="0"
+                      y="0"
+                      className="h-3 w-3 fill-yellow-300 text-yellow-300"
+                    >
+                      <polygon
+                        points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeMiterlimit="10"
+                      ></polygon>
+                    </svg>
+                  </div>
+                  <svg
+                    enableBackground="new 0 0 15 15"
+                    viewBox="0 0 15 15"
+                    x="0"
+                    y="0"
+                    className="h-3 w-3 fill-current text-gray-300"
+                  >
+                    <polygon
+                      points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeMiterlimit="10"
+                    ></polygon>
+                  </svg>
+                </div>
+                <div className="relative">
+                  <div
+                    className="absolute left-0 top-0 h-full overflow-hidden"
+                    style={{ width: "60%" }}
+                  >
+                    <svg
+                      enableBackground="new 0 0 15 15"
+                      viewBox="0 0 15 15"
+                      x="0"
+                      y="0"
+                      className="h-3 w-3 fill-yellow-300 text-yellow-300"
+                    >
+                      <polygon
+                        points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeMiterlimit="10"
+                      ></polygon>
+                    </svg>
+                  </div>
+                  <svg
+                    enableBackground="new 0 0 15 15"
+                    viewBox="0 0 15 15"
+                    x="0"
+                    y="0"
+                    className="h-3 w-3 fill-current text-gray-300"
+                  >
+                    <polygon
+                      points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeMiterlimit="10"
+                    ></polygon>
+                  </svg>
+                </div>
+              </div>
+              <div className="ml-2 text-sm">
+                <span>1,2k</span>
+                <span className="ml-1">Sold</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Link>
+    </div>
+  ));
+
   return (
-    <main className="main-body h-screen bg-gray-200 py-6 text-black">
+    <main className="main-body h-auto bg-gray-200 py-6 text-black">
       <div className="main-content">
         <div className="grid grid-cols-12 gap-6">
           {/* Filter Options */}
-          <div className="col-span-3">
+          <section className="col-span-3">
             <div className="py-4">
               {/* All Categories */}
               <a
@@ -74,7 +296,7 @@ const Main = () => {
               {/* Price Range */}
               <div className="my-5">
                 <p>Price Range</p>
-                <form className="mt-2">
+                <form className="mt-2" onSubmit={handleSubmit}>
                   {/* Input field */}
                   <div className="flex items-start">
                     {/* Min Price */}
@@ -143,30 +365,99 @@ const Main = () => {
                 <span>Clear All</span>
               </button>
             </div>
-          </div>
+          </section>
+
           {/* Product Area */}
-          <div className="col-span-9">
+          <section className="col-span-9">
             {/* Sort Options */}
-            <div className="bg-gray-300/40 px-3 py-4">
+            <section className="bg-gray-300/40 px-3 py-4">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <div className="flex flex-wrap items-center gap-2">
                   <div>Sort By</div>
                   <button className="h-8 px-4 text-center text-sm capitalize  bg-white text-black hover:bg-slate-100">
                     Popular
                   </button>
-                  <button className="h-8 px-4 text-center text-sm capitalize  bg-orange-primary text-white hover:bg-orange/80">
+                  <button className="h-8 px-4 text-center text-sm capitalize  bg-orange-primary text-white hover:bg-orange-primary/80">
                     Newest
                   </button>
                   <button className="h-8 px-4 text-center text-sm capitalize  bg-white text-black hover:bg-slate-100">
                     Best Selling
                   </button>
+                  <select className="h-8  px-4 text-left text-sm capitalize  outline-none  bg-white text-black hover:bg-slate-100">
+                    <option value="" className="bg-white text-black">
+                      Price
+                    </option>
+                    <option value="asc" className="bg-white text-black">
+                      Price: Low to High
+                    </option>
+                    <option value="desc" className="bg-white text-black">
+                      Price: High to Low
+                    </option>
+                  </select>
                 </div>
-                <div className="flex items-center"></div>
+                <div className="flex items-center">
+                  <div>
+                    <span className="text-orange-primary">1</span>
+                    <span>/3</span>
+                  </div>
+                  <div className="ml-2 flex">
+                    <button>
+                      <Image
+                        src="/assets/icons/left.svg"
+                        alt="Left Icon"
+                        width={20}
+                        height={20}
+                        className="cursor-not-allowed bg-white/40 shadow"
+                      />
+                    </button>
+                    <button>
+                      <Image
+                        src="/assets/icons/right.svg"
+                        alt="Right Icon"
+                        width={20}
+                        height={20}
+                        className="rounded-bl-sm rounded-tl-sm bg-white shadow hover:bg-slate-300"
+                      />
+                    </button>
+                  </div>
+                </div>
               </div>
-            </div>
+            </section>
             {/* Product Listings */}
+            <section className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+              {productItems}
+            </section>
             {/* Pagigation buttons */}
-          </div>
+            <div className="mt-6 flex flex-wrap justify-center">
+              <span className="mx-2 cursor-not-allowed rounded border bg-white/60 px-3 py-2 shadow-sm">
+                Prev
+              </span>
+              <Link
+                className="mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm border-cyan-500"
+                href="/"
+              >
+                1
+              </Link>
+              <Link
+                className="mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm border-transparent"
+                href="/"
+              >
+                2
+              </Link>
+              <Link
+                className="mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm border-transparent"
+                href="/"
+              >
+                3
+              </Link>
+              <Link
+                className="mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm"
+                href="/"
+              >
+                Next
+              </Link>
+            </div>
+          </section>
         </div>
       </div>
     </main>
