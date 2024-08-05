@@ -1,21 +1,27 @@
 "use client";
 
-import React, { ChangeEvent, FC, FormEvent, Fragment, useEffect } from "react";
+import React, {
+  ChangeEvent,
+  FC,
+  FormEvent,
+  Fragment,
+  useEffect,
+  useState,
+} from "react";
 import Image from "next/image";
-import { useState } from "react";
-import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import ProductCard, { Product } from "@/components/ProductCard";
 
-interface ProductCardListProps {
+type ProductCardListProps = {
   data: Product[];
   handleClick: () => void;
-}
+};
 const ProductCardList: FC<ProductCardListProps> = ({ data, handleClick }) => {
   return (
     <Fragment>
       {data.map((product) => (
         <ProductCard
-          key={product.id}
+          key={product._id}
           product={product}
           handleClick={handleClick}
         />
@@ -32,7 +38,6 @@ const Main = () => {
     // Handle the form submission logic here
     console.log("Form submitted");
   };
-
   const starData = [
     { full: 5, empty: 0 },
     { full: 4, empty: 1 },
@@ -41,233 +46,29 @@ const Main = () => {
     { full: 1, empty: 4 },
   ];
 
-  const [products, setProducts] = useState([]);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pageParam = searchParams.get("page");
+  const [products, setProducts] = useState<Product[]>([]);
+  const page = pageParam ? parseInt(pageParam) : 1;
+  const totalPages = 3;
+
   useEffect(() => {
     const fetchProducts = async () => {
-      const response = await fetch("/api/products"); // sends a GET request to the specified endpoint.
-      const data = await response.json(); // parses the response as JSON
+      const response = await fetch(`/api/products?page=${page}`); // sends a GET request to the specified endpoint.
+      const fetchedData = await response.json(); // parses the response as JSON
 
-      setProducts(data);
+      setProducts(fetchedData.data.products);
     };
 
     fetchProducts(); // calls the function
-  }, []);
+  }, [page]); // dependency array: tells React to re-run the effect whenever the value of page changes
 
-  // const productItems = Array.from({ length: 20 }, (_, index) => (
-  //   <div key={index} className="col-span-1">
-  //     <Link href="/">
-  //       <div className="overflow-hidden rounded-sm bg-white shadow transition-transform duration-100 hover:translate-y-[-0.04rem] hover:shadow-md">
-  //         <div className="relative w-full pt-[100%]">
-  //           <Image
-  //             src="/assets/images/samsung-s24-ultra.jpeg"
-  //             alt="Smartphone"
-  //             width={1024}
-  //             height={1024}
-  //             className="absolute left-0 top-0 h-full w-full bg-white object-cover"
-  //           />
-  //         </div>
-  //         <div className="overflow-hidden p-2">
-  //           <div className="min-h-[2rem] text-xs line-clamp-2">
-  //             Samsung Galaxy S24 Ultra 12GB 256GB
-  //           </div>
-  //           <div className="mt-3 flex items-center">
-  //             <div className="max-w-[50%] truncate text-gray-500 line-through">
-  //               <span className="text-xs">₫</span>
-  //               <span className="text-sm">3.990.000</span>
-  //             </div>
-  //             <div className="ml-1 truncate text-orange-primary">
-  //               <span className="text-xs">₫</span>
-  //               <span className="text-sm">3.990.000</span>
-  //             </div>
-  //           </div>
-  //           <div className="mt-3 flex items-center justify-end">
-  //             <div className="flex items-center">
-  //               <div className="relative">
-  //                 <div
-  //                   className="absolute left-0 top-0 h-full overflow-hidden"
-  //                   style={{ width: "100%" }}
-  //                 >
-  //                   <svg
-  //                     enableBackground="new 0 0 15 15"
-  //                     viewBox="0 0 15 15"
-  //                     x="0"
-  //                     y="0"
-  //                     className="h-3 w-3 fill-yellow-300 text-yellow-300"
-  //                   >
-  //                     <polygon
-  //                       points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
-  //                       strokeLinecap="round"
-  //                       strokeLinejoin="round"
-  //                       strokeMiterlimit="10"
-  //                     ></polygon>
-  //                   </svg>
-  //                 </div>
-  //                 <svg
-  //                   enableBackground="new 0 0 15 15"
-  //                   viewBox="0 0 15 15"
-  //                   x="0"
-  //                   y="0"
-  //                   className="h-3 w-3 fill-current text-gray-300"
-  //                 >
-  //                   <polygon
-  //                     points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
-  //                     strokeLinecap="round"
-  //                     strokeLinejoin="round"
-  //                     strokeMiterlimit="10"
-  //                   ></polygon>
-  //                 </svg>
-  //               </div>
-  //               <div className="relative">
-  //                 <div
-  //                   className="absolute left-0 top-0 h-full overflow-hidden"
-  //                   style={{ width: "100%" }}
-  //                 >
-  //                   <svg
-  //                     enableBackground="new 0 0 15 15"
-  //                     viewBox="0 0 15 15"
-  //                     x="0"
-  //                     y="0"
-  //                     className="h-3 w-3 fill-yellow-300 text-yellow-300"
-  //                   >
-  //                     <polygon
-  //                       points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
-  //                       strokeLinecap="round"
-  //                       strokeLinejoin="round"
-  //                       strokeMiterlimit="10"
-  //                     ></polygon>
-  //                   </svg>
-  //                 </div>
-  //                 <svg
-  //                   enableBackground="new 0 0 15 15"
-  //                   viewBox="0 0 15 15"
-  //                   x="0"
-  //                   y="0"
-  //                   className="h-3 w-3 fill-current text-gray-300"
-  //                 >
-  //                   <polygon
-  //                     points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
-  //                     strokeLinecap="round"
-  //                     strokeLinejoin="round"
-  //                     strokeMiterlimit="10"
-  //                   ></polygon>
-  //                 </svg>
-  //               </div>
-  //               <div className="relative">
-  //                 <div
-  //                   className="absolute left-0 top-0 h-full overflow-hidden"
-  //                   style={{ width: "100%" }}
-  //                 >
-  //                   <svg
-  //                     enableBackground="new 0 0 15 15"
-  //                     viewBox="0 0 15 15"
-  //                     x="0"
-  //                     y="0"
-  //                     className="h-3 w-3 fill-yellow-300 text-yellow-300"
-  //                   >
-  //                     <polygon
-  //                       points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
-  //                       strokeLinecap="round"
-  //                       strokeLinejoin="round"
-  //                       strokeMiterlimit="10"
-  //                     ></polygon>
-  //                   </svg>
-  //                 </div>
-  //                 <svg
-  //                   enableBackground="new 0 0 15 15"
-  //                   viewBox="0 0 15 15"
-  //                   x="0"
-  //                   y="0"
-  //                   className="h-3 w-3 fill-current text-gray-300"
-  //                 >
-  //                   <polygon
-  //                     points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
-  //                     strokeLinecap="round"
-  //                     strokeLinejoin="round"
-  //                     strokeMiterlimit="10"
-  //                   ></polygon>
-  //                 </svg>
-  //               </div>
-  //               <div className="relative">
-  //                 <div
-  //                   className="absolute left-0 top-0 h-full overflow-hidden"
-  //                   style={{ width: "100%" }}
-  //                 >
-  //                   <svg
-  //                     enableBackground="new 0 0 15 15"
-  //                     viewBox="0 0 15 15"
-  //                     x="0"
-  //                     y="0"
-  //                     className="h-3 w-3 fill-yellow-300 text-yellow-300"
-  //                   >
-  //                     <polygon
-  //                       points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
-  //                       strokeLinecap="round"
-  //                       strokeLinejoin="round"
-  //                       strokeMiterlimit="10"
-  //                     ></polygon>
-  //                   </svg>
-  //                 </div>
-  //                 <svg
-  //                   enableBackground="new 0 0 15 15"
-  //                   viewBox="0 0 15 15"
-  //                   x="0"
-  //                   y="0"
-  //                   className="h-3 w-3 fill-current text-gray-300"
-  //                 >
-  //                   <polygon
-  //                     points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
-  //                     strokeLinecap="round"
-  //                     strokeLinejoin="round"
-  //                     strokeMiterlimit="10"
-  //                   ></polygon>
-  //                 </svg>
-  //               </div>
-  //               <div className="relative">
-  //                 <div
-  //                   className="absolute left-0 top-0 h-full overflow-hidden"
-  //                   style={{ width: "60%" }}
-  //                 >
-  //                   <svg
-  //                     enableBackground="new 0 0 15 15"
-  //                     viewBox="0 0 15 15"
-  //                     x="0"
-  //                     y="0"
-  //                     className="h-3 w-3 fill-yellow-300 text-yellow-300"
-  //                   >
-  //                     <polygon
-  //                       points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
-  //                       strokeLinecap="round"
-  //                       strokeLinejoin="round"
-  //                       strokeMiterlimit="10"
-  //                     ></polygon>
-  //                   </svg>
-  //                 </div>
-  //                 <svg
-  //                   enableBackground="new 0 0 15 15"
-  //                   viewBox="0 0 15 15"
-  //                   x="0"
-  //                   y="0"
-  //                   className="h-3 w-3 fill-current text-gray-300"
-  //                 >
-  //                   <polygon
-  //                     points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
-  //                     strokeLinecap="round"
-  //                     strokeLinejoin="round"
-  //                     strokeMiterlimit="10"
-  //                   ></polygon>
-  //                 </svg>
-  //               </div>
-  //             </div>
-  //             <div className="ml-2 text-sm">
-  //               <span>1,2k</span>
-  //               <span className="ml-1">Sold</span>
-  //             </div>
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </Link>
-  //   </div>
-  // ));
+  const handlePageChange = (newPage: number) => {
+    if (newPage > 0 && newPage <= totalPages) {
+      router.push(`/?page=${newPage}`);
+    }
+  };
 
   return (
     <main className="main-body h-auto bg-gray-200 py-6 text-black">
@@ -426,28 +227,43 @@ const Main = () => {
                     </option>
                   </select>
                 </div>
+                {/* Pagnigation */}
                 <div className="flex items-center">
                   <div>
-                    <span className="text-orange-primary">1</span>
-                    <span>/3</span>
+                    <span className="text-orange-primary">{page}</span>
+                    <span>/{totalPages}</span>
                   </div>
                   <div className="ml-2 flex">
-                    <button>
+                    <button
+                      onClick={() => handlePageChange(page - 1)}
+                      disabled={page === 1}
+                      className={`rounded border px-2 py-1 shadow-sm  ${
+                        page === 1
+                          ? "cursor-not-allowed bg-white/50"
+                          : "bg-white hover:bg-slate-200"
+                      }`}
+                    >
                       <Image
                         src="/assets/icons/left.svg"
                         alt="Left Icon"
-                        width={20}
-                        height={20}
-                        className="cursor-not-allowed bg-white/40 shadow"
+                        width={12}
+                        height={12}
                       />
                     </button>
-                    <button>
+                    <button
+                      onClick={() => handlePageChange(page + 1)}
+                      disabled={page === totalPages}
+                      className={`rounded border px-2 py-1 shadow-sm  ${
+                        page === totalPages
+                          ? "cursor-not-allowed bg-white/50"
+                          : "bg-white hover:bg-slate-200"
+                      }`}
+                    >
                       <Image
                         src="/assets/icons/right.svg"
                         alt="Right Icon"
-                        width={20}
-                        height={20}
-                        className="rounded-bl-sm rounded-tl-sm bg-white shadow hover:bg-slate-300"
+                        width={12}
+                        height={12}
                       />
                     </button>
                   </div>
@@ -461,33 +277,35 @@ const Main = () => {
             </section>
             {/* Pagigation buttons */}
             <div className="mt-6 flex flex-wrap justify-center">
-              <span className="mx-2 cursor-not-allowed rounded border bg-white/60 px-3 py-2 shadow-sm">
+              <button
+                className={`mx-2 rounded border px-3 py-2 shadow-sm ${
+                  page === 1 ? "cursor-not-allowed bg-white/50" : "bg-white"
+                }`}
+                onClick={() => handlePageChange(page - 1)}
+                disabled={page === 1}
+              >
                 Prev
-              </span>
-              <Link
-                className="mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm border-cyan-500"
-                href="/"
-              >
-                1
-              </Link>
-              <Link
-                className="mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm border-transparent"
-                href="/"
-              >
-                2
-              </Link>
-              <Link
-                className="mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm border-transparent"
-                href="/"
-              >
-                3
-              </Link>
-              <Link
-                className="mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm"
-                href="/"
+              </button>
+              {[1, 2, 3].map((pageNum) => (
+                <button
+                  key={pageNum}
+                  className={`mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm ${
+                    page === pageNum ? "border-cyan-500" : "border-transparent"
+                  }`}
+                  onClick={() => handlePageChange(pageNum)}
+                >
+                  {pageNum}
+                </button>
+              ))}
+              <button
+                className={`mx-2 rounded border px-3 py-2 shadow-sm ${
+                  page === 3 ? "cursor-not-allowed bg-white/50" : "bg-white"
+                }`}
+                onClick={() => handlePageChange(page + 1)}
+                disabled={page === 3}
               >
                 Next
-              </Link>
+              </button>
             </div>
           </section>
         </div>
