@@ -1,22 +1,10 @@
 import Link from "next/link";
 import React, { FC } from "react";
 import Image from "next/image";
-
-export type Product = {
-  _id: string;
-  image: string;
-  name: string;
-  price: number;
-  price_before_discount: number;
-  sold: number;
-};
-type ProductCardProps = {
-  product: Product;
-  handleClick: () => void;
-};
+import { ProductCardProps } from "@/types/product.type";
 
 const ProductCard: FC<ProductCardProps> = ({ product, handleClick }) => {
-   const { _id, name, price, price_before_discount, image, sold } = product;
+  const { _id, name, price, price_before_discount, image, sold } = product;
 
   return (
     <div key={_id} className="col-span-1">

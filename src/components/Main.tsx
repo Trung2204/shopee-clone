@@ -10,12 +10,11 @@ import React, {
 } from "react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import ProductCard, { Product } from "@/components/ProductCard";
+import ProductCard from "@/components/ProductCard";
+import Link from "next/link";
+import { ProductCardListProps, Product } from "@/types/product.type";
 
-type ProductCardListProps = {
-  data: Product[];
-  handleClick: () => void;
-};
+
 const ProductCardList: FC<ProductCardListProps> = ({ data, handleClick }) => {
   return (
     <Fragment>
@@ -66,7 +65,7 @@ const Main = () => {
 
   const handlePageChange = (newPage: number) => {
     if (newPage > 0 && newPage <= totalPages) {
-      router.push(`/?page=${newPage}`);
+      router.push(`/?page=${newPage}`, { scroll: false });
     }
   };
 
@@ -234,38 +233,48 @@ const Main = () => {
                     <span>/{totalPages}</span>
                   </div>
                   <div className="ml-2 flex">
-                    <button
-                      onClick={() => handlePageChange(page - 1)}
-                      disabled={page === 1}
-                      className={`rounded border px-2 py-1 shadow-sm  ${
-                        page === 1
-                          ? "cursor-not-allowed bg-white/50"
-                          : "bg-white hover:bg-slate-200"
-                      }`}
-                    >
-                      <Image
-                        src="/assets/icons/left.svg"
-                        alt="Left Icon"
-                        width={12}
-                        height={12}
-                      />
-                    </button>
-                    <button
-                      onClick={() => handlePageChange(page + 1)}
-                      disabled={page === totalPages}
-                      className={`rounded border px-2 py-1 shadow-sm  ${
-                        page === totalPages
-                          ? "cursor-not-allowed bg-white/50"
-                          : "bg-white hover:bg-slate-200"
-                      }`}
-                    >
-                      <Image
-                        src="/assets/icons/right.svg"
-                        alt="Right Icon"
-                        width={12}
-                        height={12}
-                      />
-                    </button>
+                    {page > 1 ? (
+                      <Link href={`/?page=${page - 1}`} passHref scroll={false}>
+                        <div className="rounded border px-2 py-1 shadow-sm bg-white hover:bg-slate-200">
+                          <Image
+                            src="/assets/icons/left.svg"
+                            alt="Left Icon"
+                            width={12}
+                            height={12}
+                          />
+                        </div>
+                      </Link>
+                    ) : (
+                      <div className="rounded border px-2 py-1 shadow-sm cursor-not-allowed bg-white/50">
+                        <Image
+                          src="/assets/icons/left.svg"
+                          alt="Left Icon"
+                          width={12}
+                          height={12}
+                        />
+                      </div>
+                    )}
+                    {page < totalPages ? (
+                      <Link href={`/?page=${page + 1}`} passHref scroll={false}>
+                        <div className="rounded border px-2 py-1 shadow-sm bg-white hover:bg-slate-200">
+                          <Image
+                            src="/assets/icons/right.svg"
+                            alt="Right Icon"
+                            width={12}
+                            height={12}
+                          />
+                        </div>
+                      </Link>
+                    ) : (
+                      <div className="rounded border px-2 py-1 shadow-sm cursor-not-allowed bg-white/50">
+                        <Image
+                          src="/assets/icons/right.svg"
+                          alt="Right Icon"
+                          width={12}
+                          height={12}
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -277,35 +286,46 @@ const Main = () => {
             </section>
             {/* Pagigation buttons */}
             <div className="mt-6 flex flex-wrap justify-center">
-              <button
-                className={`mx-2 rounded border px-3 py-2 shadow-sm ${
-                  page === 1 ? "cursor-not-allowed bg-white/50" : "bg-white"
-                }`}
-                onClick={() => handlePageChange(page - 1)}
-                disabled={page === 1}
-              >
-                Prev
-              </button>
+              {page > 1 ? (
+                <Link href={`/?page=${page - 1}`} passHref scroll={false}>
+                  <div className="mx-2 rounded border px-3 py-2 shadow-sm bg-white">
+                    Prev
+                  </div>
+                </Link>
+              ) : (
+                <div className="mx-2 rounded border px-3 py-2 shadow-sm cursor-not-allowed bg-white/50">
+                  Prev
+                </div>
+              )}
               {[1, 2, 3].map((pageNum) => (
-                <button
+                <Link
                   key={pageNum}
-                  className={`mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm ${
-                    page === pageNum ? "border-cyan-500" : "border-transparent"
-                  }`}
-                  onClick={() => handlePageChange(pageNum)}
+                  href={`/?page=${pageNum}`}
+                  passHref
+                  scroll={false}
                 >
-                  {pageNum}
-                </button>
+                  <div
+                    className={`mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm ${
+                      page === pageNum
+                        ? "border-cyan-500"
+                        : "border-transparent"
+                    }`}
+                  >
+                    {pageNum}
+                  </div>
+                </Link>
               ))}
-              <button
-                className={`mx-2 rounded border px-3 py-2 shadow-sm ${
-                  page === 3 ? "cursor-not-allowed bg-white/50" : "bg-white"
-                }`}
-                onClick={() => handlePageChange(page + 1)}
-                disabled={page === 3}
-              >
-                Next
-              </button>
+              {page < 3 ? (
+                <Link href={`/?page=${page + 1}`} passHref scroll={false}>
+                  <div className="mx-2 rounded border px-3 py-2 shadow-sm bg-white">
+                    Next
+                  </div>
+                </Link>
+              ) : (
+                <div className="mx-2 rounded border px-3 py-2 shadow-sm cursor-not-allowed bg-white/50">
+                  Next
+                </div>
+              )}
             </div>
           </section>
         </div>
