@@ -9,11 +9,11 @@ import React, {
   useState,
 } from "react";
 import Image from "next/image";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import ProductCard from "@/components/ProductCard";
 import Link from "next/link";
 import { ProductCardListProps, Product } from "@/types/product.type";
-
+import { Category } from "@/types/category.type";
 
 const ProductCardList: FC<ProductCardListProps> = ({ data, handleClick }) => {
   return (
@@ -45,10 +45,10 @@ const Main = () => {
     { full: 1, empty: 4 },
   ];
 
-  const router = useRouter();
   const searchParams = useSearchParams();
   const pageParam = searchParams.get("page");
   const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const page = pageParam ? parseInt(pageParam) : 1;
   const totalPages = 3;
 
@@ -63,11 +63,15 @@ const Main = () => {
     fetchProducts(); // calls the function
   }, [page]); // dependency array: tells React to re-run the effect whenever the value of page changes
 
-  const handlePageChange = (newPage: number) => {
-    if (newPage > 0 && newPage <= totalPages) {
-      router.push(`/?page=${newPage}`, { scroll: false });
-    }
-  };
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const response = await fetch("/api/categories");
+      const fetchedData = await response.json();
+      setCategories(fetchedData.data);
+    };
+
+    fetchCategories();
+  }, []);
 
   return (
     <main className="main-body h-auto bg-gray-200 py-6 text-black">
@@ -77,7 +81,7 @@ const Main = () => {
           <section className="col-span-3">
             <div className="py-4">
               {/* All Categories */}
-              <a
+              <Link
                 href="/"
                 className="flex items-center font-bold text-lg text-orange-primary"
               >
@@ -89,25 +93,17 @@ const Main = () => {
                   className="mr-3 h-4 w-3 fill-current"
                 />
                 <span>All Categories</span>
-              </a>
+              </Link>
               <div className="divider"></div>
               {/* Category list */}
               <ul>
-                <li className="py-2 pl-2">
-                  <a href="/" className="relative px-2">
-                    Watches
-                  </a>
-                </li>
-                <li className="py-2 pl-2">
-                  <a href="/" className="relative px-2">
-                    T-Shirts
-                  </a>
-                </li>
-                <li className="py-2 pl-2">
-                  <a href="/" className="relative px-2">
-                    Smartphones
-                  </a>
-                </li>
+                {categories.map((category) => (
+                  <li className="py-2 pl-2" key={category._id}>
+                    <Link href="/" className="relative px-2">
+                      {category.name}
+                    </Link>
+                  </li>
+                ))}
               </ul>
               {/* Search Filter */}
               <a
@@ -234,7 +230,7 @@ const Main = () => {
                   </div>
                   <div className="ml-2 flex">
                     {page > 1 ? (
-                      <Link href={`/?page=${page - 1}`} passHref scroll={false}>
+                      <Link href={`/?page=${page - 1}`} scroll={false}>
                         <div className="rounded border px-2 py-1 shadow-sm bg-white hover:bg-slate-200">
                           <Image
                             src="/assets/icons/left.svg"
@@ -255,7 +251,7 @@ const Main = () => {
                       </div>
                     )}
                     {page < totalPages ? (
-                      <Link href={`/?page=${page + 1}`} passHref scroll={false}>
+                      <Link href={`/?page=${page + 1}`} scroll={false}>
                         <div className="rounded border px-2 py-1 shadow-sm bg-white hover:bg-slate-200">
                           <Image
                             src="/assets/icons/right.svg"
@@ -287,7 +283,7 @@ const Main = () => {
             {/* Pagigation buttons */}
             <div className="mt-6 flex flex-wrap justify-center">
               {page > 1 ? (
-                <Link href={`/?page=${page - 1}`} passHref scroll={false}>
+                <Link href={`/?page=${page - 1}`} scroll={false}>
                   <div className="mx-2 rounded border px-3 py-2 shadow-sm bg-white">
                     Prev
                   </div>
@@ -298,12 +294,7 @@ const Main = () => {
                 </div>
               )}
               {[1, 2, 3].map((pageNum) => (
-                <Link
-                  key={pageNum}
-                  href={`/?page=${pageNum}`}
-                  passHref
-                  scroll={false}
-                >
+                <Link key={pageNum} href={`/?page=${pageNum}`} scroll={false}>
                   <div
                     className={`mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm ${
                       page === pageNum
@@ -316,7 +307,7 @@ const Main = () => {
                 </Link>
               ))}
               {page < 3 ? (
-                <Link href={`/?page=${page + 1}`} passHref scroll={false}>
+                <Link href={`/?page=${page + 1}`} scroll={false}>
                   <div className="mx-2 rounded border px-3 py-2 shadow-sm bg-white">
                     Next
                   </div>
