@@ -12,22 +12,9 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import ProductCard from "@/components/ProductCard";
 import Link from "next/link";
-import { ProductCardListProps, Product } from "@/types/product.type";
+import { Product } from "@/types/product.type";
 import { Category } from "@/types/category.type";
-
-const ProductCardList: FC<ProductCardListProps> = ({ data, handleClick }) => {
-  return (
-    <Fragment>
-      {data.map((product) => (
-        <ProductCard
-          key={product._id}
-          product={product}
-          handleClick={handleClick}
-        />
-      ))}
-    </Fragment>
-  );
-};
+import ProductCardList from "./ProductCardList";
 
 const Main = () => {
   const [searchText, setsearchText] = useState("");
