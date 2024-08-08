@@ -4,12 +4,14 @@ import React from "react";
 import { Product } from "@/types/product.type";
 import { FetchedData } from "@/types/fetched.data.type";
 import ProductCardList from "./ProductCardList";
+import PriceSelector from "./PriceSelector";
 
 type Props = {
   searchParams: {
     page?: string;
     limit?: string;
-    sort_by?: string;
+    sort_by?: "view" | "createdAt" | "sold" | "price" | "";
+    order?: "asc" | "desc" | "";
   };
 };
 
@@ -18,15 +20,18 @@ async function getData({
   page,
   limit,
   sort_by,
+  order,
 }: {
   page: number;
   limit: number;
-  sort_by: string;
+  sort_by: "view" | "createdAt" | "sold" | "price" | "";
+  order: "asc" | "desc" | "";
 }) {
   const queryParams = new URLSearchParams({
     page: page.toString(),
     limit: limit.toString(),
     sort_by: sort_by,
+    order: order,
   });
 
   const res = await fetch(
@@ -43,13 +48,43 @@ async function getData({
   return fetchedData.data;
 }
 
+async function getCategories({ categories }: { categories: string }) {
+  const queryParams = new URLSearchParams({ categories: categories });
+
+  const res = await fetch(
+    `https://api-ecom.duthanhduoc.com/${queryParams.toString()}`
+  );
+
+  if (!res.ok) {
+    // This will activate the closest `error.js` Error Boundary
+    throw new Error("Failed to fetch data");
+  }
+
+  const fetchedData: FetchedData = await res.json();
+  console.log(fetchedData.message);
+  return fetchedData.data;
+}
+
 const MainServerSide = async (props: Props) => {
   const { searchParams } = props;
-  const page = parseInt(searchParams.page || "1", 10);
-  const limit = parseInt(searchParams.limit || "20", 10);
+  console.log(searchParams);
+  const page =
+    parseInt(searchParams.page || "1", 10) < 0
+      ? 1
+      : parseInt(searchParams.page || "1", 10);
+  const limit =
+    parseInt(searchParams.limit || "20", 10) < 0
+      ? 1
+      : parseInt(searchParams.limit || "20", 10);
   const sort_by = searchParams.sort_by || "";
+  const order = searchParams.order || "";
 
-  const data = await getData({ page: page, limit: limit, sort_by: sort_by });
+  const data = await getData({
+    page: page,
+    limit: limit,
+    sort_by: sort_by,
+    order: order,
+  });
 
   const totalPages = data.pagination.page_size;
   const pageNumbers = Array.from(
@@ -213,17 +248,21 @@ const MainServerSide = async (props: Props) => {
                       </div>
                     </Link>
                   ))}
-                  <select className="h-8  px-4 text-left text-sm capitalize  outline-none  bg-white text-black hover:bg-slate-200">
-                    <option value="" className="bg-white text-black">
-                      Price
-                    </option>
+                  <PriceSelector page={page} limit={limit} />
+                  {/* <select className="h-8  px-4 text-left text-sm capitalize  outline-none  bg-white text-black hover:bg-slate-200">
+                    <Link
+                      href={`/?page=${page}&limit=${limit}&sort_by=price&order=asc`}
+                      className="bg-white text-black"
+                    >
+                      <option value="">Price</option>
+                    </Link>
                     <option value="asc" className="bg-white text-black">
                       Price: Low to High
                     </option>
                     <option value="desc" className="bg-white text-black">
                       Price: High to Low
                     </option>
-                  </select>
+                  </select> */}
                 </div>
                 {/* Pagnigation */}
                 <div className="flex items-center">
@@ -239,7 +278,7 @@ const MainServerSide = async (props: Props) => {
                             ? `/?page=${page - 1}&limit=${limit}`
                             : `/?page=${
                                 page - 1
-                              }&limit=${limit}&sort_by=${sort_by}`
+                              }&limit=${limit}&sort_by=${sort_by}&order=${order}`
                         }
                         scroll={false}
                       >
@@ -269,7 +308,7 @@ const MainServerSide = async (props: Props) => {
                             ? `/?page=${page + 1}&limit=${limit}`
                             : `/?page=${
                                 page + 1
-                              }&limit=${limit}&sort_by=${sort_by}`
+                              }&limit=${limit}&sort_by=${sort_by}&order=${order}`
                         }
                         scroll={false}
                       >
@@ -307,7 +346,9 @@ const MainServerSide = async (props: Props) => {
                   href={
                     sort_by === ""
                       ? `/?page=${page - 1}&limit=${limit}`
-                      : `/?page=${page - 1}&limit=${limit}&sort_by=${sort_by}`
+                      : `/?page=${
+                          page - 1
+                        }&limit=${limit}&sort_by=${sort_by}&order=${order}`
                   }
                   scroll={false}
                 >
@@ -326,7 +367,7 @@ const MainServerSide = async (props: Props) => {
                   href={
                     sort_by === ""
                       ? `/?page=${pageNum}&limit=${limit}`
-                      : `/?page=${pageNum}&limit=${limit}&sort_by=${sort_by}`
+                      : `/?page=${pageNum}&limit=${limit}&sort_by=${sort_by}&order=${order}`
                   }
                   scroll={false}
                 >
@@ -346,7 +387,9 @@ const MainServerSide = async (props: Props) => {
                   href={
                     sort_by === ""
                       ? `/?page=${page - 1}&limit=${limit}`
-                      : `/?page=${page - 1}&limit=${limit}&sort_by=${sort_by}`
+                      : `/?page=${
+                          page - 1
+                        }&limit=${limit}&sort_by=${sort_by}&order=${order}`
                   }
                   scroll={false}
                 >

@@ -2,6 +2,8 @@ import Link from "next/link";
 import React, { FC } from "react";
 import Image from "next/image";
 import { ProductCardProps } from "@/types/product.type";
+import { formatPrice } from "@/utils/formatPrice";
+import { formatSold } from "@/utils/formatSold";
 
 const ProductCard: FC<ProductCardProps> = ({ product, handleClick }) => {
   const { _id, name, price, price_before_discount, image, sold } = product;
@@ -28,16 +30,18 @@ const ProductCard: FC<ProductCardProps> = ({ product, handleClick }) => {
             <div className="mt-3 flex items-center">
               <div className="max-w-[50%] truncate text-gray-500 line-through">
                 <span className="text-xs">₫</span>
-                <span className="text-sm">{price_before_discount}</span>{" "}
-                {/* * 19000 */}
+                <span className="text-sm">
+                  {formatPrice(price_before_discount)}
+                </span>
               </div>
               <div className="ml-1 truncate text-orange-primary">
                 <span className="text-xs">₫</span>
-                <span className="text-sm">{price}</span> {/* * 19000 */}
+                <span className="text-sm">{formatPrice(price)}</span>
               </div>
             </div>
             {/* Review + Sold */}
             <div className="mt-3 flex items-center justify-end">
+              {/* Review */}
               <div className="flex items-center">
                 <div className="relative">
                   <div
@@ -182,7 +186,7 @@ const ProductCard: FC<ProductCardProps> = ({ product, handleClick }) => {
                 <div className="relative">
                   <div
                     className="absolute left-0 top-0 h-full overflow-hidden"
-                    style={{ width: "60%" }}
+                    style={{ width: "50%" }}
                   >
                     <svg
                       enableBackground="new 0 0 15 15"
@@ -215,8 +219,9 @@ const ProductCard: FC<ProductCardProps> = ({ product, handleClick }) => {
                   </svg>
                 </div>
               </div>
+              {/* Sold */}
               <div className="ml-2 text-sm">
-                <span>{sold}</span>
+                <span>{formatSold(sold)}</span>
                 <span className="ml-1">Sold</span>
               </div>
             </div>

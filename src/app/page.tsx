@@ -3,12 +3,14 @@ import Main from "@/components/Main";
 import Footer from "@/components/Footer";
 import { Fragment } from "react";
 import MainServerSide from "@/components/MainServerSide";
+import PriceSelector from "@/components/PriceSelector";
 
 type Props = {
   searchParams: {
     page?: string;
     limit?: string;
-    sort_by? : string;
+    sort_by?: "view" | "createdAt" | "sold" | "price" | "";
+    order?: "asc" | "desc" | "";
   };
 };
 

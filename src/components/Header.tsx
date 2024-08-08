@@ -42,7 +42,7 @@ const Header: FC = () => {
               height={50}
               className="object-contain"
             />
-            <span className="logo-text text-white text-2xl font-bold">
+            <span className="logo-text text-white text-2xl font-bold hidden lg:block">
               Shopee
             </span>
           </Link>

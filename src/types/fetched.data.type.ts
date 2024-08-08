@@ -11,3 +11,8 @@ export type FetchedData = {
         }
     };
 }
+
+export type FetchedCategories = {
+    message: string;
+    data: Array<Object>;
+}
