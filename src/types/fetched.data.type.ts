@@ -1,3 +1,4 @@
+import { Category } from "./category.type";
 import { Product } from "./product.type";
 
 export type FetchedData = {
@@ -14,5 +15,5 @@ export type FetchedData = {
 
 export type FetchedCategories = {
     message: string;
-    data: Array<Object>;
+    data: Category[];
 }

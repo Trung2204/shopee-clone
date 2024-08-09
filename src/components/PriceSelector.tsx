@@ -6,7 +6,7 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 function PriceSelector({ page, limit }: { page: number; limit: number }) {
   const router = useRouter();
   const path = usePathname();
-  console.log(router, path);
+//   console.log(router, path);
   const [selectedPrice, setSelectedPrice] = useState(""); // Initialize with an empty string
 
   const handlePriceChange = (e: ChangeEvent<HTMLSelectElement>) => {

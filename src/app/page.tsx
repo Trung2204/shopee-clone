@@ -2,15 +2,17 @@ import Header from "@/components/Header";
 import Main from "@/components/Main";
 import Footer from "@/components/Footer";
 import { Fragment } from "react";
-import MainServerSide from "@/components/MainServerSide";
-import PriceSelector from "@/components/PriceSelector";
+import MainSSR from "@/components/MainSSR";
 
 type Props = {
   searchParams: {
     page?: string;
     limit?: string;
-    sort_by?: "view" | "createdAt" | "sold" | "price" | "";
-    order?: "asc" | "desc" | "";
+    // sort_by?: "view" | "createdAt" | "sold" | "price" | "";
+    // order?: "asc" | "desc" | "";
+    sort_by?: string;
+    order?: string;
+    category?: string;
   };
 };
 
@@ -22,7 +24,7 @@ export default function Home(props: Props) {
       <Header />
       {/* Main Body */}
       {/* <Main /> */}
-      <MainServerSide searchParams={searchParams} />
+      <MainSSR searchParams={searchParams} />
       {/* Footer */}
       <Footer />
     </Fragment>

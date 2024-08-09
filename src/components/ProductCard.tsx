@@ -6,7 +6,8 @@ import { formatPrice } from "@/utils/formatPrice";
 import { formatSold } from "@/utils/formatSold";
 
 const ProductCard: FC<ProductCardProps> = ({ product, handleClick }) => {
-  const { _id, name, price, price_before_discount, image, sold } = product;
+  const { _id, name, price, price_before_discount, image, sold, view } =
+    product;
 
   return (
     <div key={_id} className="col-span-1">
@@ -43,6 +44,7 @@ const ProductCard: FC<ProductCardProps> = ({ product, handleClick }) => {
             <div className="mt-3 flex items-center justify-end">
               {/* Review */}
               <div className="flex items-center">
+                <p className="text-xs">{view}</p>
                 <div className="relative">
                   <div
                     className="absolute left-0 top-0 h-full overflow-hidden"
