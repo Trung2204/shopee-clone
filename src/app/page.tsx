@@ -13,6 +13,7 @@ type Props = {
     sort_by?: string;
     order?: string;
     category?: string;
+    rating_filter?: string;
   };
 };
 

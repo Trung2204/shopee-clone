@@ -16,6 +16,7 @@ type Props = {
     sort_by?: string;
     order?: string;
     category?: string;
+    rating_filter?: string;
   };
 };
 
@@ -229,33 +230,35 @@ const MainSSR = async (props: Props) => {
               <ul className="my-3">
                 {starPosition.map((stars, index) => (
                   <li key={index} className="py-1 pl-2">
-                    <div className="flex gap-1 cursor-pointer items-center text-sm">
-                      {[...Array(stars.full)].map((_, i) => (
-                        <Image
-                          key={`full-${i}`}
-                          src="/assets/icons/star-full.svg"
-                          alt="Full Star Icon"
-                          width={18}
-                          height={18}
-                        />
-                      ))}
-                      {[...Array(stars.empty)].map((_, i) => (
-                        <Image
-                          key={`empty-${i}`}
-                          src="/assets/icons/star-empty.svg"
-                          alt="Empty Star Icon"
-                          width={18}
-                          height={18}
-                        />
-                      ))}
-                    </div>
+                    <Link href={"/"} scroll={false}>
+                      <div className="flex gap-1 cursor-pointer items-center text-sm">
+                        {[...Array(stars.full)].map((_, i) => (
+                          <Image
+                            key={`full-${i}`}
+                            src="/assets/icons/star-full.svg"
+                            alt="Full Star Icon"
+                            width={18}
+                            height={18}
+                          />
+                        ))}
+                        {[...Array(stars.empty)].map((_, i) => (
+                          <Image
+                            key={`empty-${i}`}
+                            src="/assets/icons/star-empty.svg"
+                            alt="Empty Star Icon"
+                            width={18}
+                            height={18}
+                          />
+                        ))}
+                      </div>
+                    </Link>
                   </li>
                 ))}
               </ul>
               <div className="divider"></div>
               {/* Clear All Button */}
               <Link
-                href={`/?page=${pageParam}&limit=${limitParam}`}
+                href={"/"}
                 scroll={false}
                 className="flex w-full items-center justify-center bg-orange-primary p-2 text-sm uppercase text-white hover:bg-orange-primary/80"
               >
@@ -266,7 +269,7 @@ const MainSSR = async (props: Props) => {
 
           {/* Product Area */}
           <section className="col-span-9">
-            {/* Sort Options */}
+            {/* Sort Options + Pagination Buttons */}
             <section className="bg-gray-300/40 px-3 py-4">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 {/* Sort Option Buttons */}
@@ -296,7 +299,11 @@ const MainSSR = async (props: Props) => {
                       </div>
                     </Link>
                   ))}
-                  <PriceSelector page={pageParam} limit={limitParam} />
+                  <PriceSelector
+                    page={pageParam}
+                    limit={limitParam}
+                    category={categoryParam}
+                  />
                 </div>
                 {/* Pagnigation */}
                 <div className="flex items-center">
@@ -307,39 +314,13 @@ const MainSSR = async (props: Props) => {
                   <div className="ml-2 flex">
                     {pageParam > 1 ? (
                       <Link
-                        href={
-                          // sort_byParam === ""
-                          //   ? `/?page=${pageParam - 1}&limit=${limitParam}`
-                          //   : `/?page=${
-                          //       pageParam - 1
-                          //     }&limit=${limitParam}&sort_by=${sort_byParam}&order=${orderParam}`
-                          // &order=${orderParam}${
-                          //         categoryParam !== ""
-                          //           ? `&category=${categoryParam}`
-                          //           : ""
-                          //       }
-                          `/?page=${pageParam - 1}&limit=${limitParam}${
-                            sort_byParam !== ""
-                              ? `&sort_by=${sort_byParam}${
-                                  orderParam !== ""
-                                    ? `&order=${orderParam}${
-                                        categoryParam !== ""
-                                          ? `&category=${categoryParam}`
-                                          : ""
-                                      }`
-                                    : `${
-                                        categoryParam !== ""
-                                          ? `&category=${categoryParam}`
-                                          : ""
-                                      }`
-                                }`
-                              : `${
-                                  categoryParam !== ""
-                                    ? `&category=${categoryParam}`
-                                    : ""
-                                }`
-                          }`
-                        }
+                        href={`/?page=${pageParam - 1}&limit=${limitParam}${
+                          sort_byParam !== "" ? `&sort_by=${sort_byParam}` : ""
+                        }${orderParam !== "" ? `&order=${orderParam}` : ""}${
+                          categoryParam !== ""
+                            ? `&category=${categoryParam}`
+                            : ""
+                        }`}
                         scroll={false}
                       >
                         <div className="rounded border px-2 py-1 shadow-sm bg-white hover:bg-slate-200">
@@ -364,25 +345,11 @@ const MainSSR = async (props: Props) => {
                     {pageParam < totalPages ? (
                       <Link
                         href={`/?page=${pageParam + 1}&limit=${limitParam}${
-                          sort_byParam !== ""
-                            ? `&sort_by=${sort_byParam}${
-                                orderParam !== ""
-                                  ? `&order=${orderParam}${
-                                      categoryParam !== ""
-                                        ? `&category=${categoryParam}`
-                                        : ""
-                                    }`
-                                  : `${
-                                      categoryParam !== ""
-                                        ? `&category=${categoryParam}`
-                                        : ""
-                                    }`
-                              }`
-                            : `${
-                                categoryParam !== ""
-                                  ? `&category=${categoryParam}`
-                                  : ""
-                              }`
+                          sort_byParam !== "" ? `&sort_by=${sort_byParam}` : ""
+                        }${orderParam !== "" ? `&order=${orderParam}` : ""}${
+                          categoryParam !== ""
+                            ? `&category=${categoryParam}`
+                            : ""
                         }`}
                         scroll={false}
                       >
@@ -409,42 +376,21 @@ const MainSSR = async (props: Props) => {
                 </div>
               </div>
             </section>
+
             {/* Product Listings */}
             <section className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
               <ProductCardList data={products} handleClick={() => {}} />
             </section>
+
             {/* Pagigation buttons */}
             <div className="mt-6 flex flex-wrap justify-center">
               {pageParam > 1 ? (
                 <Link
-                  href={
-                    // sort_byParam === ""
-                    //   ? `/?page=${pageParam - 1}&limit=${limitParam}`
-                    //   : `/?page=${
-                    //       pageParam - 1
-                    //     }&limit=${limitParam}&sort_by=${sort_byParam}&order=${orderParam}`
-                    `/?page=${pageParam - 1}&limit=${limitParam}${
-                      sort_byParam !== ""
-                        ? `&sort_by=${sort_byParam}${
-                            orderParam !== ""
-                              ? `&order=${orderParam}${
-                                  categoryParam !== ""
-                                    ? `&category=${categoryParam}`
-                                    : ""
-                                }`
-                              : `${
-                                  categoryParam !== ""
-                                    ? `&category=${categoryParam}`
-                                    : ""
-                                }`
-                          }`
-                        : `${
-                            categoryParam !== ""
-                              ? `&category=${categoryParam}`
-                              : ""
-                          }`
-                    }`
-                  }
+                  href={`/?page=${pageParam - 1}&limit=${limitParam}${
+                    sort_byParam !== "" ? `&sort_by=${sort_byParam}` : ""
+                  }${orderParam !== "" ? `&order=${orderParam}` : ""}${
+                    categoryParam !== "" ? `&category=${categoryParam}` : ""
+                  }`}
                   scroll={false}
                 >
                   <div className="mx-2 rounded border px-3 py-2 shadow-sm bg-white">
@@ -459,32 +405,11 @@ const MainSSR = async (props: Props) => {
               {pageNumbers.map((pageNum) => (
                 <Link
                   key={pageNum}
-                  href={
-                    // sort_byParam === ""
-                    //   ? `/?page=${pageNum}&limit=${limitParam}`
-                    //   : `/?page=${pageNum}&limit=${limitParam}&sort_by=${sort_byParam}&order=${orderParam}`
-                    `/?page=${pageParam - 1}&limit=${limitParam}${
-                      sort_byParam !== ""
-                        ? `&sort_by=${sort_byParam}${
-                            orderParam !== ""
-                              ? `&order=${orderParam}${
-                                  categoryParam !== ""
-                                    ? `&category=${categoryParam}`
-                                    : ""
-                                }`
-                              : `${
-                                  categoryParam !== ""
-                                    ? `&category=${categoryParam}`
-                                    : ""
-                                }`
-                          }`
-                        : `${
-                            categoryParam !== ""
-                              ? `&category=${categoryParam}`
-                              : ""
-                          }`
-                    }`
-                  }
+                  href={`/?page=${pageNum}&limit=${limitParam}${
+                    sort_byParam !== "" ? `&sort_by=${sort_byParam}` : ""
+                  }${orderParam !== "" ? `&order=${orderParam}` : ""}${
+                    categoryParam !== "" ? `&category=${categoryParam}` : ""
+                  }`}
                   scroll={false}
                 >
                   <div
@@ -500,34 +425,11 @@ const MainSSR = async (props: Props) => {
               ))}
               {pageParam < totalPages ? (
                 <Link
-                  href={
-                    // sort_byParam === ""
-                    //   ? `/?page=${pageParam - 1}&limit=${limitParam}`
-                    //   : `/?page=${
-                    //       pageParam - 1
-                    //     }&limit=${limitParam}&sort_by=${sort_byParam}&order=${orderParam}`
-                    `/?page=${pageParam + 1}&limit=${limitParam}${
-                      sort_byParam !== ""
-                        ? `&sort_by=${sort_byParam}${
-                            orderParam !== ""
-                              ? `&order=${orderParam}${
-                                  categoryParam !== ""
-                                    ? `&category=${categoryParam}`
-                                    : ""
-                                }`
-                              : `${
-                                  categoryParam !== ""
-                                    ? `&category=${categoryParam}`
-                                    : ""
-                                }`
-                          }`
-                        : `${
-                            categoryParam !== ""
-                              ? `&category=${categoryParam}`
-                              : ""
-                          }`
-                    }`
-                  }
+                  href={`/?page=${pageParam + 1}&limit=${limitParam}${
+                    sort_byParam !== "" ? `&sort_by=${sort_byParam}` : ""
+                  }${orderParam !== "" ? `&order=${orderParam}` : ""}${
+                    categoryParam !== "" ? `&category=${categoryParam}` : ""
+                  }`}
                   scroll={false}
                 >
                   <div className="mx-2 rounded border px-3 py-2 shadow-sm bg-white">

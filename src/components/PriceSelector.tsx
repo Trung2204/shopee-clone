@@ -1,12 +1,20 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 
-function PriceSelector({ page, limit }: { page: number; limit: number }) {
+function PriceSelector({
+  page,
+  limit,
+  category,
+}: {
+  page: number;
+  limit: number;
+  category: string;
+}) {
   const router = useRouter();
   const path = usePathname();
-//   console.log(router, path);
+  //   console.log(router, path);
   const [selectedPrice, setSelectedPrice] = useState(""); // Initialize with an empty string
 
   const handlePriceChange = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -14,7 +22,9 @@ function PriceSelector({ page, limit }: { page: number; limit: number }) {
     setSelectedPrice(selectedValue);
 
     // Update the URL
-    const newUrl = `${path}?page=${page}&limit=${limit}&sort_by=price&order=${selectedValue}`;
+    const newUrl = `${path}?page=${page}&limit=${limit}&sort_by=price&order=${selectedValue}${
+      category !== "" ? `&category=${category}` : ""
+    }`;
     router.push(newUrl, { scroll: false });
   };
 
