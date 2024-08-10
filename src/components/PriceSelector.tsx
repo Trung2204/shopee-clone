@@ -7,14 +7,15 @@ function PriceSelector({
   page,
   limit,
   category,
+  rating_filter,
 }: {
   page: number;
   limit: number;
   category: string;
+  rating_filter: string;
 }) {
   const router = useRouter();
   const path = usePathname();
-  //   console.log(router, path);
   const [selectedPrice, setSelectedPrice] = useState(""); // Initialize with an empty string
 
   const handlePriceChange = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -24,7 +25,7 @@ function PriceSelector({
     // Update the URL
     const newUrl = `${path}?page=${page}&limit=${limit}&sort_by=price&order=${selectedValue}${
       category !== "" ? `&category=${category}` : ""
-    }`;
+    }${rating_filter !== "" ? `&rating_filter=${rating_filter}` : ""}`;
     router.push(newUrl, { scroll: false });
   };
 
@@ -38,7 +39,7 @@ function PriceSelector({
           : "bg-white text-black hover:bg-slate-200"
       }`}
     >
-      <option value="" className="bg-white text-black">
+      <option value="" disabled className="bg-white text-black">
         Price
       </option>
       <option value="asc" className="bg-white text-black">

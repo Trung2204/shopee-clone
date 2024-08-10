@@ -6,6 +6,7 @@ import { FetchedCategories, FetchedData } from "@/types/fetched.data.type";
 import ProductCardList from "./ProductCardList";
 import PriceSelector from "./PriceSelector";
 import { Category } from "@/types/category.type";
+import PriceForm from "./PriceForm";
 
 type Props = {
   searchParams: {
@@ -17,6 +18,8 @@ type Props = {
     order?: string;
     category?: string;
     rating_filter?: string;
+    price_max?: string;
+    price_min?: string;
   };
 };
 
@@ -27,6 +30,9 @@ async function getProducts({
   sort_by,
   order,
   category,
+  rating_filter,
+  price_max,
+  price_min,
 }: {
   page: number;
   limit: number;
@@ -35,6 +41,9 @@ async function getProducts({
   sort_by: string;
   order: string;
   category?: string; // Make category optional
+  rating_filter?: string;
+  price_max?: string;
+  price_min?: string;
 }) {
   const queryParams = new URLSearchParams({
     page: page.toString(),
@@ -46,6 +55,15 @@ async function getProducts({
   // Only add category to queryParams if it's not empty or undefined
   if (category) {
     queryParams.append("category", category);
+  }
+  if (rating_filter) {
+    queryParams.append("rating_filter", rating_filter);
+  }
+  if (price_max) {
+    queryParams.append("price_max", price_max);
+  }
+  if (price_min) {
+    queryParams.append("price_min", price_min);
   }
   console.log("getProducts", queryParams);
 
@@ -79,6 +97,7 @@ async function getCategories() {
 const MainSSR = async (props: Props) => {
   const { searchParams } = props;
   console.log("searchParam", searchParams);
+
   const pageParam =
     parseInt(searchParams.page || "1", 10) < 0
       ? 1
@@ -91,7 +110,9 @@ const MainSSR = async (props: Props) => {
   const sort_byParam = searchParams.sort_by || "";
   const orderParam = searchParams.order || "";
   const categoryParam = searchParams.category || "";
-  console.log("categoryParam", categoryParam);
+  const rating_filterParam = searchParams.rating_filter || "";
+  const price_maxParam = searchParams.price_max || "";
+  const price_minParam = searchParams.price_min || "";
 
   const productData = await getProducts({
     page: pageParam,
@@ -99,6 +120,9 @@ const MainSSR = async (props: Props) => {
     sort_by: sort_byParam,
     order: orderParam,
     category: categoryParam || undefined, // Pass undefined if categoryParam is empty
+    rating_filter: rating_filterParam || undefined, // Pass undefined if rating_filterParam is empty
+    price_max: price_maxParam || undefined, // Pass undefined if price_maxParam is empty
+    price_min: price_minParam || undefined, // Pass undefined if price_minParam is empty
   });
 
   const products: Product[] = productData.products;
@@ -118,6 +142,11 @@ const MainSSR = async (props: Props) => {
     { full: 2, empty: 3 },
     { full: 1, empty: 4 },
   ];
+
+  // href={`/?page=${pageParam - 1}&limit=${limitParam}${
+  //  sort_byParam !== "" ? `&sort_by=${sort_byParam}` : "" }${
+  //  orderParam !== "" ? `&order=${orderParam}` : ""}${
+  //  categoryParam !== "" ? `&category=${categoryParam}` : "" }`}
 
   return (
     <main className="main-body h-auto bg-gray-200 py-6 text-black">
@@ -194,35 +223,14 @@ const MainSSR = async (props: Props) => {
               {/* Price Range */}
               <div className="my-5">
                 <p>Price Range</p>
-                <form className="mt-2">
-                  {/* Input field */}
-                  <div className="flex items-start">
-                    {/* Min Price */}
-                    <div className="grow">
-                      <input
-                        type="text"
-                        placeholder="₫ FROM"
-                        className="p-1 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm"
-                      />
-                    </div>
-                    <div className="mx-2 mt-2 shrink-0">-</div>
-                    {/* Max Price */}
-                    <div className="grow">
-                      <input
-                        type="text"
-                        placeholder="₫ TO"
-                        name="price_max"
-                        className="p-1 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm"
-                      />
-                    </div>
-                  </div>
-                  {/* Divider div */}
-                  <div className="mt-1 min-h-[1.25rem] text-center text-sm text-red-600"></div>
-                  {/* Submit Button */}
-                  <button className="flex w-full items-center justify-center bg-orange-primary p-2 text-sm uppercase text-white hover:bg-orange-primary/80">
-                    <span>Apply</span>
-                  </button>
-                </form>
+                <PriceForm
+                  page={pageParam}
+                  limit={limitParam}
+                  sort_by={sort_byParam}
+                  order={orderParam}
+                  category={categoryParam}
+                  rating_filter={rating_filterParam}
+                />
               </div>
               <div className="divider"></div>
               {/* Review */}
@@ -230,7 +238,33 @@ const MainSSR = async (props: Props) => {
               <ul className="my-3">
                 {starPosition.map((stars, index) => (
                   <li key={index} className="py-1 pl-2">
-                    <Link href={"/"} scroll={false}>
+                    <Link
+                      href={`/?page=${pageParam}&limit=${limitParam}${
+                        sort_byParam !== "" ? `&sort_by=${sort_byParam}` : ""
+                      }${orderParam !== "" ? `&order=${orderParam}` : ""}${
+                        categoryParam !== "" ? `&category=${categoryParam}` : ""
+                      }${
+                        price_maxParam !== ""
+                          ? `&price_max=${price_maxParam}`
+                          : ""
+                      }${
+                        price_minParam !== ""
+                          ? `&price_min=${price_minParam}`
+                          : ""
+                      }&rating_filter=${5 - index}`}
+                      scroll={false}
+                      className="relative"
+                    >
+                      <svg
+                        viewBox="0 0 4 7"
+                        className={`absolute left-[-14px] top-[5px] h-[9px] w-[9px] fill-orange-primary ${
+                          rating_filterParam !== `${5 - index}`
+                            ? "hidden"
+                            : "block"
+                        }`}
+                      >
+                        <polygon points="4 3.5 0 0 0 7"></polygon>
+                      </svg>
                       <div className="flex gap-1 cursor-pointer items-center text-sm">
                         {[...Array(stars.full)].map((_, i) => (
                           <Image
@@ -280,6 +314,18 @@ const MainSSR = async (props: Props) => {
                       key={sortBy}
                       href={`/?page=${pageParam}&limit=${limitParam}&sort_by=${sortBy}${
                         categoryParam !== "" ? `&category=${categoryParam}` : ""
+                      }${
+                        rating_filterParam !== ""
+                          ? `&rating_filter=${rating_filterParam}`
+                          : ""
+                      }${
+                        price_maxParam !== ""
+                          ? `&price_max=${price_maxParam}`
+                          : ""
+                      }${
+                        price_minParam !== ""
+                          ? `&price_min=${price_minParam}`
+                          : ""
                       }`}
                       scroll={false}
                     >
@@ -303,6 +349,7 @@ const MainSSR = async (props: Props) => {
                     page={pageParam}
                     limit={limitParam}
                     category={categoryParam}
+                    rating_filter={rating_filterParam}
                   />
                 </div>
                 {/* Pagnigation */}
@@ -319,6 +366,18 @@ const MainSSR = async (props: Props) => {
                         }${orderParam !== "" ? `&order=${orderParam}` : ""}${
                           categoryParam !== ""
                             ? `&category=${categoryParam}`
+                            : ""
+                        }${
+                          rating_filterParam !== ""
+                            ? `&rating_filter=${rating_filterParam}`
+                            : ""
+                        }${
+                          price_maxParam !== ""
+                            ? `&price_max=${price_maxParam}`
+                            : ""
+                        }${
+                          price_minParam !== ""
+                            ? `&price_min=${price_minParam}`
                             : ""
                         }`}
                         scroll={false}
@@ -349,6 +408,18 @@ const MainSSR = async (props: Props) => {
                         }${orderParam !== "" ? `&order=${orderParam}` : ""}${
                           categoryParam !== ""
                             ? `&category=${categoryParam}`
+                            : ""
+                        }${
+                          rating_filterParam !== ""
+                            ? `&rating_filter=${rating_filterParam}`
+                            : ""
+                        }${
+                          price_maxParam !== ""
+                            ? `&price_max=${price_maxParam}`
+                            : ""
+                        }${
+                          price_minParam !== ""
+                            ? `&price_min=${price_minParam}`
                             : ""
                         }`}
                         scroll={false}
@@ -390,6 +461,14 @@ const MainSSR = async (props: Props) => {
                     sort_byParam !== "" ? `&sort_by=${sort_byParam}` : ""
                   }${orderParam !== "" ? `&order=${orderParam}` : ""}${
                     categoryParam !== "" ? `&category=${categoryParam}` : ""
+                  }${
+                    rating_filterParam !== ""
+                      ? `&rating_filter=${rating_filterParam}`
+                      : ""
+                  }${
+                    price_maxParam !== "" ? `&price_max=${price_maxParam}` : ""
+                  }${
+                    price_minParam !== "" ? `&price_min=${price_minParam}` : ""
                   }`}
                   scroll={false}
                 >
@@ -409,6 +488,14 @@ const MainSSR = async (props: Props) => {
                     sort_byParam !== "" ? `&sort_by=${sort_byParam}` : ""
                   }${orderParam !== "" ? `&order=${orderParam}` : ""}${
                     categoryParam !== "" ? `&category=${categoryParam}` : ""
+                  }${
+                    rating_filterParam !== ""
+                      ? `&rating_filter=${rating_filterParam}`
+                      : ""
+                  }${
+                    price_maxParam !== "" ? `&price_max=${price_maxParam}` : ""
+                  }${
+                    price_minParam !== "" ? `&price_min=${price_minParam}` : ""
                   }`}
                   scroll={false}
                 >
@@ -429,6 +516,14 @@ const MainSSR = async (props: Props) => {
                     sort_byParam !== "" ? `&sort_by=${sort_byParam}` : ""
                   }${orderParam !== "" ? `&order=${orderParam}` : ""}${
                     categoryParam !== "" ? `&category=${categoryParam}` : ""
+                  }${
+                    rating_filterParam !== ""
+                      ? `&rating_filter=${rating_filterParam}`
+                      : ""
+                  }${
+                    price_maxParam !== "" ? `&price_max=${price_maxParam}` : ""
+                  }${
+                    price_minParam !== "" ? `&price_min=${price_minParam}` : ""
                   }`}
                   scroll={false}
                 >
