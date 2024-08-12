@@ -1,14 +1,16 @@
 "use client";
 
 import { searchParamsProps } from "@/types/search.params.type";
+import { formatNumber, unformatNumber } from "@/utils/formatNumber";
 import { usePathname, useRouter } from "next/navigation";
-import React, { FormEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useState } from "react";
 
 function PriceForm({ searchParams }: searchParamsProps) {
   const router = useRouter();
   const path = usePathname();
   const [minPrice, setMinPrice] = useState(""); // Initialize with an empty string
   const [maxPrice, setMaxPrice] = useState(""); // Initialize with an empty string
+  console.log(minPrice, maxPrice);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // Prevent the default form submission behavior
@@ -40,8 +42,8 @@ function PriceForm({ searchParams }: searchParamsProps) {
           <input
             type="text"
             placeholder="₫ FROM"
-            value={minPrice}
-            onChange={(e) => setMinPrice(e.target.value)}
+            value={formatNumber(minPrice)}
+            onChange={(e) => setMinPrice(unformatNumber(e.target.value))}
             className="p-1 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm"
           />
         </div>
@@ -51,8 +53,8 @@ function PriceForm({ searchParams }: searchParamsProps) {
           <input
             type="text"
             placeholder="₫ TO"
-            value={maxPrice}
-            onChange={(e) => setMaxPrice(e.target.value)}
+            value={formatNumber(maxPrice)}
+            onChange={(e) => setMaxPrice(unformatNumber(e.target.value))}
             className="p-1 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm"
           />
         </div>
