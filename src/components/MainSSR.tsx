@@ -7,20 +7,17 @@ import ProductCardList from "./ProductCardList";
 import PriceSelector from "./PriceSelector";
 import { Category } from "@/types/category.type";
 import PriceForm from "./PriceForm";
+import { searchParamsProps } from "@/types/search.params.type";
 
-type Props = {
-  searchParams: {
-    page?: string;
-    limit?: string;
-    // sort_by?: "view" | "createdAt" | "sold" | "price" | "";
-    // order?: "asc" | "desc" | "";
-    sort_by?: string;
-    order?: string;
-    category?: string;
-    rating_filter?: string;
-    price_max?: string;
-    price_min?: string;
-  };
+type ApiProductsRequestParams = {
+  page: number;
+  limit: number;
+  sort_by: string;
+  order: string;
+  category?: string; // Make category optional
+  rating_filter?: string;
+  price_max?: string;
+  price_min?: string;
 };
 
 // Fetch data from API
@@ -33,42 +30,31 @@ async function getProducts({
   rating_filter,
   price_max,
   price_min,
-}: {
-  page: number;
-  limit: number;
-  // sort_by: "view" | "createdAt" | "sold" | "price" | "";
-  // order: "asc" | "desc" | "";
-  sort_by: string;
-  order: string;
-  category?: string; // Make category optional
-  rating_filter?: string;
-  price_max?: string;
-  price_min?: string;
-}) {
-  const queryParams = new URLSearchParams({
+}: ApiProductsRequestParams) {
+  const requestParams = new URLSearchParams({
     page: page.toString(),
     limit: limit.toString(),
     sort_by: sort_by,
     order: order,
   });
 
-  // Only add category to queryParams if it's not empty or undefined
+  // Only add category to requestParams if it's not empty or undefined
   if (category) {
-    queryParams.append("category", category);
+    requestParams.append("category", category);
   }
   if (rating_filter) {
-    queryParams.append("rating_filter", rating_filter);
+    requestParams.append("rating_filter", rating_filter);
   }
   if (price_max) {
-    queryParams.append("price_max", price_max);
+    requestParams.append("price_max", price_max);
   }
   if (price_min) {
-    queryParams.append("price_min", price_min);
+    requestParams.append("price_min", price_min);
   }
-  console.log("getProducts", queryParams);
+  // console.log("URLSearchParams from getProducts()", requestParams);
 
   const res = await fetch(
-    `https://api-ecom.duthanhduoc.com/products?${queryParams.toString()}`
+    `https://api-ecom.duthanhduoc.com/products?${requestParams.toString()}`
   );
 
   if (!res.ok) {
@@ -90,13 +76,17 @@ async function getCategories() {
   }
 
   const fetchedData: FetchedCategories = await res.json();
-  console.log(fetchedData.message);
+  // console.log(fetchedData.message);
   return fetchedData.data;
 }
 
-const MainSSR = async (props: Props) => {
+const MainSSR = async (props: searchParamsProps) => {
   const { searchParams } = props;
-  console.log("searchParam", searchParams);
+  console.log(
+    "searchParam from MainSSR",
+    new URLSearchParams(searchParams),
+    new URLSearchParams(searchParams).toString()
+  );
 
   const pageParam =
     parseInt(searchParams.page || "1", 10) < 0
@@ -143,11 +133,6 @@ const MainSSR = async (props: Props) => {
     { full: 1, empty: 4 },
   ];
 
-  // href={`/?page=${pageParam - 1}&limit=${limitParam}${
-  //  sort_byParam !== "" ? `&sort_by=${sort_byParam}` : "" }${
-  //  orderParam !== "" ? `&order=${orderParam}` : ""}${
-  //  categoryParam !== "" ? `&category=${categoryParam}` : "" }`}
-
   return (
     <main className="main-body h-auto bg-gray-200 py-6 text-black">
       <div className="main-content">
@@ -183,7 +168,13 @@ const MainSSR = async (props: Props) => {
                 {categories.map((category) => (
                   <li className="py-2 pl-2" key={category._id}>
                     <Link
-                      href={`/?page=${pageParam}&limit=${limitParam}&category=${category._id}`}
+                      href={{
+                        pathname: "/",
+                        query: new URLSearchParams({
+                          ...searchParams,
+                          category: category._id,
+                        }).toString(),
+                      }}
                       className={`relative px-2 ${
                         categoryParam === category._id
                           ? "text-orange-primary font-semibold"
@@ -205,11 +196,8 @@ const MainSSR = async (props: Props) => {
                 ))}
               </ul>
 
-              {/* Search Filter */}
-              <a
-                href="/"
-                className="mt-4 flex items-center font-bold uppercase"
-              >
+              {/* Search Filter Title */}
+              <div className="mt-4 flex items-center font-bold uppercase">
                 <Image
                   src="/assets/icons/filter.svg"
                   alt="Filter Icon"
@@ -218,7 +206,7 @@ const MainSSR = async (props: Props) => {
                   className="mr-3 h-4 w-3 fill-current stroke-current"
                 />
                 <span>Search Filter</span>
-              </a>
+              </div>
               <div className="divider"></div>
               {/* Price Range */}
               <div className="my-5">
@@ -284,6 +272,7 @@ const MainSSR = async (props: Props) => {
                             height={18}
                           />
                         ))}
+                        <p className="px-3">{5 - index} Star+</p>
                       </div>
                     </Link>
                   </li>
@@ -312,21 +301,28 @@ const MainSSR = async (props: Props) => {
                   {["view", "createdAt", "sold"].map((sortBy) => (
                     <Link
                       key={sortBy}
-                      href={`/?page=${pageParam}&limit=${limitParam}&sort_by=${sortBy}${
-                        categoryParam !== "" ? `&category=${categoryParam}` : ""
-                      }${
-                        rating_filterParam !== ""
-                          ? `&rating_filter=${rating_filterParam}`
-                          : ""
-                      }${
-                        price_maxParam !== ""
-                          ? `&price_max=${price_maxParam}`
-                          : ""
-                      }${
-                        price_minParam !== ""
-                          ? `&price_min=${price_minParam}`
-                          : ""
-                      }`}
+                      href={{
+                        pathname: "/",
+                        query: new URLSearchParams({
+                          ...searchParams,
+                          sort_by: sortBy,
+                        }).toString(),
+                      }}
+                      // href={`/?page=${pageParam}&limit=${limitParam}&sort_by=${sortBy}${
+                      //   categoryParam !== "" ? `&category=${categoryParam}` : ""
+                      // }${
+                      //   rating_filterParam !== ""
+                      //     ? `&rating_filter=${rating_filterParam}`
+                      //     : ""
+                      // }${
+                      //   price_maxParam !== ""
+                      //     ? `&price_max=${price_maxParam}`
+                      //     : ""
+                      // }${
+                      //   price_minParam !== ""
+                      //     ? `&price_min=${price_minParam}`
+                      //     : ""
+                      // }`}
                       scroll={false}
                     >
                       <div

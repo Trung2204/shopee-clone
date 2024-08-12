@@ -38,6 +38,11 @@ function PriceForm({
     router.push(newUrl, { scroll: false });
   };
 
+  const isInvalidPrice =
+    maxPrice !== "" &&
+    minPrice !== "" &&
+    parseFloat(maxPrice) < parseFloat(minPrice);
+
   return (
     <form onSubmit={handleSubmit} className="mt-2">
       {/* Input field */}
@@ -64,10 +69,23 @@ function PriceForm({
           />
         </div>
       </div>
-      {/* Divider div */}
-      <div className="mt-1 min-h-[1.25rem] text-center text-sm text-red-600"></div>
+      {/* Warning div */}
+      {isInvalidPrice ? (
+        <div className="mt-1 min-h-[1.25rem] text-center text-sm text-red-600">
+          Invalid Price
+        </div>
+      ) : (
+        <div className="mt-1 min-h-[1.25rem] text-center text-sm text-red-600"></div>
+      )}
       {/* Submit Button */}
-      <button className="flex w-full items-center justify-center bg-orange-primary p-2 text-sm uppercase text-white hover:bg-orange-primary/80">
+      <button
+        className={`flex w-full items-center justify-center bg-orange-primary p-2 text-sm uppercase text-white hover:bg-orange-primary/80 ${
+          isInvalidPrice
+            ? "cursor-not-allowed opacity-70 hover:bg-orange-primary"
+            : ""
+        }`}
+        disabled={isInvalidPrice}
+      >
         <span>Apply</span>
       </button>
     </form>
