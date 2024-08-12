@@ -195,7 +195,6 @@ const MainSSR = async (props: searchParamsProps) => {
                   </li>
                 ))}
               </ul>
-
               {/* Search Filter Title */}
               <div className="mt-4 flex items-center font-bold uppercase">
                 <Image
@@ -324,25 +323,13 @@ const MainSSR = async (props: searchParamsProps) => {
                   <div className="ml-2 flex">
                     {pageParam > 1 ? (
                       <Link
-                        href={`/?page=${pageParam - 1}&limit=${limitParam}${
-                          sort_byParam !== "" ? `&sort_by=${sort_byParam}` : ""
-                        }${orderParam !== "" ? `&order=${orderParam}` : ""}${
-                          categoryParam !== ""
-                            ? `&category=${categoryParam}`
-                            : ""
-                        }${
-                          rating_filterParam !== ""
-                            ? `&rating_filter=${rating_filterParam}`
-                            : ""
-                        }${
-                          price_maxParam !== ""
-                            ? `&price_max=${price_maxParam}`
-                            : ""
-                        }${
-                          price_minParam !== ""
-                            ? `&price_min=${price_minParam}`
-                            : ""
-                        }`}
+                        href={{
+                          pathname: "/",
+                          query: new URLSearchParams({
+                            ...searchParams,
+                            page: `${pageParam - 1}`,
+                          }).toString(),
+                        }}
                         scroll={false}
                       >
                         <div className="rounded border px-2 py-1 shadow-sm bg-white hover:bg-slate-200">
@@ -366,25 +353,13 @@ const MainSSR = async (props: searchParamsProps) => {
                     )}
                     {pageParam < totalPages ? (
                       <Link
-                        href={`/?page=${pageParam + 1}&limit=${limitParam}${
-                          sort_byParam !== "" ? `&sort_by=${sort_byParam}` : ""
-                        }${orderParam !== "" ? `&order=${orderParam}` : ""}${
-                          categoryParam !== ""
-                            ? `&category=${categoryParam}`
-                            : ""
-                        }${
-                          rating_filterParam !== ""
-                            ? `&rating_filter=${rating_filterParam}`
-                            : ""
-                        }${
-                          price_maxParam !== ""
-                            ? `&price_max=${price_maxParam}`
-                            : ""
-                        }${
-                          price_minParam !== ""
-                            ? `&price_min=${price_minParam}`
-                            : ""
-                        }`}
+                        href={{
+                          pathname: "/",
+                          query: new URLSearchParams({
+                            ...searchParams,
+                            page: `${pageParam + 1}`,
+                          }).toString(),
+                        }}
                         scroll={false}
                       >
                         <div className="rounded border px-2 py-1 shadow-sm bg-white hover:bg-slate-200">
