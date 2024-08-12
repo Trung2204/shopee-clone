@@ -220,19 +220,13 @@ const MainSSR = async (props: searchParamsProps) => {
                 {starPosition.map((stars, index) => (
                   <li key={index} className="py-1 pl-2">
                     <Link
-                      href={`/?page=${pageParam}&limit=${limitParam}${
-                        sort_byParam !== "" ? `&sort_by=${sort_byParam}` : ""
-                      }${orderParam !== "" ? `&order=${orderParam}` : ""}${
-                        categoryParam !== "" ? `&category=${categoryParam}` : ""
-                      }${
-                        price_maxParam !== ""
-                          ? `&price_max=${price_maxParam}`
-                          : ""
-                      }${
-                        price_minParam !== ""
-                          ? `&price_min=${price_minParam}`
-                          : ""
-                      }&rating_filter=${5 - index}`}
+                      href={{
+                        pathname: "/",
+                        query: new URLSearchParams({
+                          ...searchParams,
+                          rating_filter: `${5 - index}`,
+                        }).toString(),
+                      }}
                       scroll={false}
                       className="relative"
                     >
