@@ -308,21 +308,6 @@ const MainSSR = async (props: searchParamsProps) => {
                           sort_by: sortBy,
                         }).toString(),
                       }}
-                      // href={`/?page=${pageParam}&limit=${limitParam}&sort_by=${sortBy}${
-                      //   categoryParam !== "" ? `&category=${categoryParam}` : ""
-                      // }${
-                      //   rating_filterParam !== ""
-                      //     ? `&rating_filter=${rating_filterParam}`
-                      //     : ""
-                      // }${
-                      //   price_maxParam !== ""
-                      //     ? `&price_max=${price_maxParam}`
-                      //     : ""
-                      // }${
-                      //   price_minParam !== ""
-                      //     ? `&price_min=${price_minParam}`
-                      //     : ""
-                      // }`}
                       scroll={false}
                     >
                       <div
@@ -341,12 +326,7 @@ const MainSSR = async (props: searchParamsProps) => {
                       </div>
                     </Link>
                   ))}
-                  <PriceSelector
-                    page={pageParam}
-                    limit={limitParam}
-                    category={categoryParam}
-                    rating_filter={rating_filterParam}
-                  />
+                  <PriceSelector searchParams={searchParams} />
                 </div>
                 {/* Pagnigation */}
                 <div className="flex items-center">

@@ -1,19 +1,10 @@
 "use client";
 
+import { searchParamsProps } from "@/types/search.params.type";
 import { usePathname, useRouter } from "next/navigation";
 import React, { ChangeEvent, useState } from "react";
 
-function PriceSelector({
-  page,
-  limit,
-  category,
-  rating_filter,
-}: {
-  page: number;
-  limit: number;
-  category: string;
-  rating_filter: string;
-}) {
+function PriceSelector({ searchParams }: searchParamsProps) {
   const router = useRouter();
   const path = usePathname();
   const [selectedPrice, setSelectedPrice] = useState(""); // Initialize with an empty string
@@ -22,10 +13,16 @@ function PriceSelector({
     const selectedValue = e.target.value;
     setSelectedPrice(selectedValue);
 
+    // Construct the query parameters
+    const queryParams = new URLSearchParams({
+      ...searchParams,
+      sort_by: "price", // You can set this value dynamically if needed
+      order: selectedValue,
+    }).toString();
+
     // Update the URL
-    const newUrl = `${path}?page=${page}&limit=${limit}&sort_by=price&order=${selectedValue}${
-      category !== "" ? `&category=${category}` : ""
-    }${rating_filter !== "" ? `&rating_filter=${rating_filter}` : ""}`;
+    const newUrl = `${path}?${queryParams}`;
+
     router.push(newUrl, { scroll: false });
   };
 
