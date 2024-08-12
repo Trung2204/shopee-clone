@@ -1,23 +1,10 @@
 "use client";
 
+import { searchParamsProps } from "@/types/search.params.type";
 import { usePathname, useRouter } from "next/navigation";
 import React, { FormEvent, useState } from "react";
 
-function PriceForm({
-  page,
-  limit,
-  sort_by,
-  order,
-  category,
-  rating_filter,
-}: {
-  page: number;
-  limit: number;
-  sort_by: string;
-  order: string;
-  category: string;
-  rating_filter: string;
-}) {
+function PriceForm({ searchParams }: searchParamsProps) {
   const router = useRouter();
   const path = usePathname();
   const [minPrice, setMinPrice] = useState(""); // Initialize with an empty string
@@ -26,14 +13,15 @@ function PriceForm({
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // Prevent the default form submission behavior
 
+    // Construct the query parameters
+    const queryParams = new URLSearchParams({
+      ...searchParams,
+      price_max: maxPrice,
+      price_min: minPrice,
+    }).toString();
+
     // Update the URL
-    const newUrl = `${path}?page=${page}&limit=${limit}${
-      sort_by !== "" ? `&sort_by=${sort_by}` : ""
-    }${order !== "" ? `&order=${order}` : ""}${
-      category !== "" ? `&category=${category}` : ""
-    }${
-      rating_filter !== "" ? `&rating_filter=${rating_filter}` : ""
-    }&price_max=${maxPrice}&price_min=${minPrice}`;
+    const newUrl = `${path}?${queryParams}`;
 
     router.push(newUrl, { scroll: false });
   };

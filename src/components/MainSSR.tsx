@@ -211,14 +211,7 @@ const MainSSR = async (props: searchParamsProps) => {
               {/* Price Range */}
               <div className="my-5">
                 <p>Price Range</p>
-                <PriceForm
-                  page={pageParam}
-                  limit={limitParam}
-                  sort_by={sort_byParam}
-                  order={orderParam}
-                  category={categoryParam}
-                  rating_filter={rating_filterParam}
-                />
+                <PriceForm searchParams={searchParams} />
               </div>
               <div className="divider"></div>
               {/* Review */}
