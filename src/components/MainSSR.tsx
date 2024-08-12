@@ -395,19 +395,13 @@ const MainSSR = async (props: searchParamsProps) => {
             <div className="mt-6 flex flex-wrap justify-center">
               {pageParam > 1 ? (
                 <Link
-                  href={`/?page=${pageParam - 1}&limit=${limitParam}${
-                    sort_byParam !== "" ? `&sort_by=${sort_byParam}` : ""
-                  }${orderParam !== "" ? `&order=${orderParam}` : ""}${
-                    categoryParam !== "" ? `&category=${categoryParam}` : ""
-                  }${
-                    rating_filterParam !== ""
-                      ? `&rating_filter=${rating_filterParam}`
-                      : ""
-                  }${
-                    price_maxParam !== "" ? `&price_max=${price_maxParam}` : ""
-                  }${
-                    price_minParam !== "" ? `&price_min=${price_minParam}` : ""
-                  }`}
+                  href={{
+                    pathname: "/",
+                    query: new URLSearchParams({
+                      ...searchParams,
+                      page: `${pageParam - 1}`,
+                    }).toString(),
+                  }}
                   scroll={false}
                 >
                   <div className="mx-2 rounded border px-3 py-2 shadow-sm bg-white">
@@ -422,19 +416,13 @@ const MainSSR = async (props: searchParamsProps) => {
               {pageNumbers.map((pageNum) => (
                 <Link
                   key={pageNum}
-                  href={`/?page=${pageNum}&limit=${limitParam}${
-                    sort_byParam !== "" ? `&sort_by=${sort_byParam}` : ""
-                  }${orderParam !== "" ? `&order=${orderParam}` : ""}${
-                    categoryParam !== "" ? `&category=${categoryParam}` : ""
-                  }${
-                    rating_filterParam !== ""
-                      ? `&rating_filter=${rating_filterParam}`
-                      : ""
-                  }${
-                    price_maxParam !== "" ? `&price_max=${price_maxParam}` : ""
-                  }${
-                    price_minParam !== "" ? `&price_min=${price_minParam}` : ""
-                  }`}
+                  href={{
+                    pathname: "/",
+                    query: new URLSearchParams({
+                      ...searchParams,
+                      page: `${pageNum}`,
+                    }).toString(),
+                  }}
                   scroll={false}
                 >
                   <div
@@ -450,19 +438,13 @@ const MainSSR = async (props: searchParamsProps) => {
               ))}
               {pageParam < totalPages ? (
                 <Link
-                  href={`/?page=${pageParam + 1}&limit=${limitParam}${
-                    sort_byParam !== "" ? `&sort_by=${sort_byParam}` : ""
-                  }${orderParam !== "" ? `&order=${orderParam}` : ""}${
-                    categoryParam !== "" ? `&category=${categoryParam}` : ""
-                  }${
-                    rating_filterParam !== ""
-                      ? `&rating_filter=${rating_filterParam}`
-                      : ""
-                  }${
-                    price_maxParam !== "" ? `&price_max=${price_maxParam}` : ""
-                  }${
-                    price_minParam !== "" ? `&price_min=${price_minParam}` : ""
-                  }`}
+                  href={{
+                    pathname: "/",
+                    query: new URLSearchParams({
+                      ...searchParams,
+                      page: `${pageParam + 1}`,
+                    }).toString(),
+                  }}
                   scroll={false}
                 >
                   <div className="mx-2 rounded border px-3 py-2 shadow-sm bg-white">
