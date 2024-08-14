@@ -5,7 +5,6 @@ import { ProductCardProps } from "@/types/product.type";
 import { formatPrice } from "@/utils/formatPrice";
 import { formatSold } from "@/utils/formatSold";
 import slugify from "slugify";
-import { setConfig } from "next/config";
 
 const ProductCard: FC<ProductCardProps> = ({ product }) => {
   const { _id, name, price, price_before_discount, image, sold, view, rating } =
@@ -13,11 +12,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
 
   return (
     <div key={_id} className="col-span-1">
-      <Link
-        href={`/${slugify(name, {
-          locale: "vi",
-        })}-i-${_id}`}
-      >
+      <Link href={`/${slugify(name, { locale: "vi" })}-i-${_id}`}>
         {/* <Link href={`/${_id}`}> */}
         <div className="overflow-hidden rounded-sm bg-white shadow transition-transform duration-100 hover:translate-y-[-0.04rem] hover:shadow-md">
           {/* Image */}
