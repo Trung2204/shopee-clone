@@ -84,18 +84,7 @@ async function getCategories() {
   return fetchedData.data;
 }
 
-async function getProductById({ id }: { id?: string }) {
-  const res = await fetch(`https://api-ecom.duthanhduoc.com/products/${id}`);
 
-  if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
-    throw new Error("Failed to fetch data");
-  }
-
-  const fetchedData: FetchedProductById = await res.json();
-  console.log("getProductByID", fetchedData.message);
-  return fetchedData.data;
-}
 
 const MainSSR = async (props: Props) => {
   const { searchParams } = props;
