@@ -2,12 +2,16 @@ import Link from "next/link";
 import Image from "next/image";
 import React from "react";
 import { Product } from "@/types/product.type";
-import { FetchedCategories, FetchedData } from "@/types/fetched.data.type";
+import {
+  FetchedCategories,
+  FetchedData,
+  FetchedProductById,
+} from "@/types/fetched.data.type";
 import ProductCardList from "./ProductCardList";
 import PriceSelector from "./PriceSelector";
 import { Category } from "@/types/category.type";
 import PriceForm from "./PriceForm";
-import { searchParamsProps } from "@/types/search.params.type";
+import { Props } from "@/types/props.type";
 
 type ApiProductsRequestParams = {
   page: number;
@@ -63,7 +67,7 @@ async function getProducts({
   }
 
   const fetchedData: FetchedData = await res.json();
-  console.log(fetchedData.message);
+  console.log("getProducts", fetchedData.message);
   return fetchedData.data;
 }
 
@@ -76,11 +80,24 @@ async function getCategories() {
   }
 
   const fetchedData: FetchedCategories = await res.json();
-  // console.log(fetchedData.message);
+  console.log("getCategories", fetchedData.message);
   return fetchedData.data;
 }
 
-const MainSSR = async (props: searchParamsProps) => {
+async function getProductById({ id }: { id?: string }) {
+  const res = await fetch(`https://api-ecom.duthanhduoc.com/products/${id}`);
+
+  if (!res.ok) {
+    // This will activate the closest `error.js` Error Boundary
+    throw new Error("Failed to fetch data");
+  }
+
+  const fetchedData: FetchedProductById = await res.json();
+  console.log("getProductByID", fetchedData.message);
+  return fetchedData.data;
+}
+
+const MainSSR = async (props: Props) => {
   const { searchParams } = props;
   console.log(
     "searchParam from MainSSR",
@@ -388,7 +405,7 @@ const MainSSR = async (props: searchParamsProps) => {
 
             {/* Product Listings */}
             <section className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-              <ProductCardList data={products} handleClick={() => {}} />
+              <ProductCardList productList={products} />
             </section>
 
             {/* Pagigation buttons */}

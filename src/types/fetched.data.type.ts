@@ -17,3 +17,8 @@ export type FetchedCategories = {
     message: string;
     data: Category[];
 }
+
+export type FetchedProductById = {
+    message: string;
+    data: Product;
+}

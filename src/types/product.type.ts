@@ -1,10 +1,10 @@
 export type Product = {
     _id: string;
-    // images: [];
+    images: [];
     price: number;
     rating: number;
     price_before_discount: number;
-    // quantity: number;
+    quantity: number;
     sold: number;
     view: number;
     name: string;
@@ -13,16 +13,14 @@ export type Product = {
         name: string;
     },
     image: string;
-    // createdAt: string;
-    // updatedAt: string;
+    createdAt: string;
+    updatedAt: string;
 };
 
 export type ProductCardProps = {
   product: Product;
-  handleClick: () => void;
 };
 
 export type ProductCardListProps = {
-  data: Product[];
-  handleClick: () => void;
+  productList: Product[];
 };

@@ -1,4 +1,5 @@
-export type searchParamsProps = {
+export type Props = {
+  // params: {};
   searchParams: {
     page?: string;
     limit?: string;
