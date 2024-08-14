@@ -3,7 +3,7 @@ import ProductCardList from "./ProductCardList";
 import { Product } from "@/types/product.type";
 
 const ProductDetails = async ({ productId }: { productId: string }) => {
-  async function getProductById({ id }: { id?: string }) {
+  async function getProductById({ id }: { id: string }) {
     const res = await fetch(`https://api-ecom.duthanhduoc.com/products/${id}`);
 
     if (!res.ok) {
@@ -31,9 +31,16 @@ const ProductDetails = async ({ productId }: { productId: string }) => {
     return fetchedData.data;
   }
 
+  // Product Details
+  const productDataById = await getProductById({ id: productId });
+  const description = productDataById.description;
+
+  // Similar Products
   const categoryId = "60afafe76ef5b902180aacb5";
-  const productData = await getProductsByCategory({ categoryId: categoryId });
-  const products: Product[] = productData.products;
+  const productDataByCategory = await getProductsByCategory({
+    categoryId: categoryId,
+  });
+  const products: Product[] = productDataByCategory.products;
 
   return (
     <main className="main-body h-auto bg-gray-200 py-6 text-black">
@@ -45,7 +52,17 @@ const ProductDetails = async ({ productId }: { productId: string }) => {
 
       {/* Desciption */}
       <section className="mt-8">
-        <div className="main-content">Description</div>
+        <div className="main-content">
+          <div className=" bg-white p-4 shadow">
+            <h1 className="rounded bg-gray-50 p-4 text-lg capitalize text-slate-700">
+              Product Description
+            </h1>
+            <div className="mx-4 mb-4 mt-12 text-sm leading-loose">
+              {/* Alternative: React HTML Parser - from: https://www.npmjs.com/package/react-html-parser */}
+              <div dangerouslySetInnerHTML={{ __html: description }} />
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* Similar Products */}
