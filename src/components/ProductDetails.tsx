@@ -5,6 +5,7 @@ import { formatSold } from "@/utils/formatSold";
 import { formatPrice } from "@/utils/formatPrice";
 import Image from "next/image";
 import ProductImageMagnifier from "./ProductImageMagnifier";
+import SimpleSlider from "./ProductImageSlider";
 
 const ProductDetails = async ({ productId }: { productId: string }) => {
   async function getProductById({ id }: { id: string }) {
@@ -55,6 +56,7 @@ const ProductDetails = async ({ productId }: { productId: string }) => {
 
   return (
     <main className="main-body h-auto bg-gray-200 py-6 text-black">
+      <SimpleSlider />
       {/* Product Details */}
       <section className="main-content">
         <div className="bg-white p-4 shadow">
