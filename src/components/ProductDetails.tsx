@@ -62,17 +62,7 @@ const ProductDetails = async ({ productId }: { productId: string }) => {
             {/* Image */}
             <div className="col-span-5">
               {/* Main Image */}
-              <ProductImageMagnifier />
-
-              <div className="relative w-full cursor-zoom-in overflow-hidden pt-[100%] shadow">
-                <Image
-                  src={image}
-                  alt={productName}
-                  width={1024}
-                  height={1024}
-                  className="absolute left-0 top-0 h-full w-full bg-white object-cover"
-                />
-              </div>
+              <ProductImageMagnifier imageSrc={image} />
 
               {/* Sub Images */}
               <div className="relative mt-4 grid grid-cols-5 gap-1">
@@ -81,13 +71,13 @@ const ProductDetails = async ({ productId }: { productId: string }) => {
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
-                    stroke-width="1.5"
+                    strokeWidth="1.5"
                     stroke="currentColor"
                     className="h-5 w-5"
                   >
                     <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                       d="M15.75 19.5L8.25 12l7.5-7.5"
                     ></path>
                   </svg>
@@ -98,7 +88,7 @@ const ProductDetails = async ({ productId }: { productId: string }) => {
                     alt={productName}
                     width={1024}
                     height={1024}
-                    className="absolute left-0 top-0 h-full w-full bg-white object-cover hover:scale-110 transition-transform duration-500"
+                    className="absolute left-0 top-0 h-full w-full bg-white object-cover"
                   />
                 </div>
                 <button className="absolute right-0 top-1/2 z-10 h-9 w-5 -translate-y-1/2 bg-black/20 text-white">
@@ -106,13 +96,13 @@ const ProductDetails = async ({ productId }: { productId: string }) => {
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
-                    stroke-width="1.5"
+                    strokeWidth="1.5"
                     stroke="currentColor"
                     className="h-5 w-5"
                   >
                     <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                       d="M8.25 4.5l7.5 7.5-7.5 7.5"
                     ></path>
                   </svg>
@@ -345,13 +335,13 @@ const ProductDetails = async ({ productId }: { productId: string }) => {
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
-                      stroke-width="1.5"
+                      strokeWidth="1.5"
                       stroke="currentColor"
                       className="h-4 w-4"
                     >
                       <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                         d="M19.5 12h-15"
                       ></path>
                     </svg>
@@ -360,6 +350,7 @@ const ProductDetails = async ({ productId }: { productId: string }) => {
                     <input
                       className="h-8 w-14 border-t border-b border-gray-300 p-1 text-center outline-none"
                       value="1"
+                      readOnly
                     />
                     <div className="hidden"></div>
                   </div>
@@ -368,13 +359,13 @@ const ProductDetails = async ({ productId }: { productId: string }) => {
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
-                      stroke-width="1.5"
+                      strokeWidth="1.5"
                       stroke="currentColor"
                       className="h-4 w-4"
                     >
                       <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                         d="M12 4.5v15m7.5-7.5h-15"
                       ></path>
                     </svg>
