@@ -1,6 +1,5 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import MainSSR from "@/components/MainSSR";
 import ProductDetails from "@/components/ProductDetails";
 import { Fragment } from "react";
 

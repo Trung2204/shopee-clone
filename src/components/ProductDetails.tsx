@@ -36,6 +36,7 @@ const ProductDetails = async ({ productId }: { productId: string }) => {
 
   // Product Details
   const productDataById = await getProductById({ id: productId });
+  const image = productDataById.image;
   const productName = productDataById.name;
   const rating = productDataById.rating;
   const sold = productDataById.sold;
@@ -58,7 +59,63 @@ const ProductDetails = async ({ productId }: { productId: string }) => {
         <div className="bg-white p-4 shadow">
           <div className="grid grid-cols-12 gap-9">
             {/* Image */}
-            <div className="col-span-5"></div>
+            <div className="col-span-5">
+              {/* Main Image */}
+              <div className="relative w-full cursor-zoom-in overflow-hidden pt-[100%] shadow">
+                <Image
+                  src={image}
+                  alt={productName}
+                  width={1024}
+                  height={1024}
+                  className="absolute left-0 top-0 h-full w-full bg-white object-cover"
+                />
+              </div>
+
+              {/* Sub Images */}
+              <div className="relative mt-4 grid grid-cols-5 gap-1">
+                <button className="absolute left-0 top-1/2 z-10 h-9 w-5 -translate-y-1/2 bg-black/20 text-white">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    className="h-5 w-5"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M15.75 19.5L8.25 12l7.5-7.5"
+                    ></path>
+                  </svg>
+                </button>
+                <div className="relative w-full pt-[100%]">
+                  <Image
+                    src={image}
+                    alt={productName}
+                    width={1024}
+                    height={1024}
+                    className="absolute left-0 top-0 h-full w-full bg-white object-cover hover:scale-110 transition-transform duration-500"
+                  />
+                </div>
+                <button className="absolute right-0 top-1/2 z-10 h-9 w-5 -translate-y-1/2 bg-black/20 text-white">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    className="h-5 w-5"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M8.25 4.5l7.5 7.5-7.5 7.5"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
             {/* Text */}
             <div className="col-span-7">
               {/* Product Name */}
