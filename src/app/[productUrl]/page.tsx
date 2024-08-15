@@ -10,6 +10,7 @@ export default function ProductDetailsPage({
 }) {
   const { productUrl } = params;
   const productId = productUrl.split("-i-")[1];
+
   return (
     <Fragment>
       {/* Header */}

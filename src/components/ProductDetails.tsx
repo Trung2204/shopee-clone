@@ -4,6 +4,7 @@ import { Product } from "@/types/product.type";
 import { formatSold } from "@/utils/formatSold";
 import { formatPrice } from "@/utils/formatPrice";
 import Image from "next/image";
+import ProductImageMagnifier from "./ProductImageMagnifier";
 
 const ProductDetails = async ({ productId }: { productId: string }) => {
   async function getProductById({ id }: { id: string }) {
@@ -61,6 +62,8 @@ const ProductDetails = async ({ productId }: { productId: string }) => {
             {/* Image */}
             <div className="col-span-5">
               {/* Main Image */}
+              <ProductImageMagnifier />
+
               <div className="relative w-full cursor-zoom-in overflow-hidden pt-[100%] shadow">
                 <Image
                   src={image}
