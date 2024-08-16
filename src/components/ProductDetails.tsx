@@ -37,10 +37,29 @@ const ProductDetails = async ({ productId }: { productId: string }) => {
     return fetchedData.data;
   }
 
-  // Product Details
+  // Get Product Details
   const productDataById = await getProductById({ id: productId });
+
+  // Image Magnifier
   const image = productDataById.image;
+  // Image Slider
   const images = productDataById.images;
+  const ImageSlideList: ImageSlide[] = images.map((imageUrl, index) => ({
+    src: imageUrl,
+    alt: `variant ${index}`,
+  }));
+  console.log(ImageSlideList);
+
+  // const ImageSlide: ImageSlide = {
+  //   alt: "Test",
+  //   src: "/assets/images/example.jpg",
+  // };
+  // const ImageSlideList: ImageSlide[] = Array.from(
+  //   { length: 10 },
+  //   () => ImageSlide
+  // );
+
+  // Product Details
   const productName = productDataById.name;
   const rating = productDataById.rating;
   const sold = productDataById.sold;
@@ -56,14 +75,6 @@ const ProductDetails = async ({ productId }: { productId: string }) => {
   });
   const products: Product[] = productDataByCategory.products;
 
-  const ImageSlide: ImageSlide = {
-    alt: "Test",
-    src: "/assets/images/example.jpg",
-  };
-  const ImageSlideList: ImageSlide[] = Array.from(
-    { length: 10 },
-    () => ImageSlide
-  );
   return (
     <main className="main-body h-auto bg-gray-200 py-6 text-black">
       <ProductImageSlider ImageSlideList={ImageSlideList} />
