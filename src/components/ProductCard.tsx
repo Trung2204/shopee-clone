@@ -13,7 +13,6 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
   return (
     <div key={_id} className="col-span-1">
       <Link href={`/${slugify(name, { locale: "vi" })}-i-${_id}`}>
-        {/* <Link href={`/${_id}`}> */}
         <div className="overflow-hidden rounded-sm bg-white shadow transition-transform duration-100 hover:translate-y-[-0.04rem] hover:shadow-md">
           {/* Image */}
           <div className="relative w-full pt-[100%]">
