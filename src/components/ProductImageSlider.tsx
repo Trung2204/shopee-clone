@@ -31,7 +31,7 @@ const Next = (props: any) => {
   );
 };
 
-export default function SimpleSlider() {
+export default function ProductImageSlider() {
   //dummy data
   const dataImageSlide: ImageSlide[] = [
     {

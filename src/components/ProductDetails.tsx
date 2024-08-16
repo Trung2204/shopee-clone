@@ -5,7 +5,7 @@ import { formatSold } from "@/utils/formatSold";
 import { formatPrice } from "@/utils/formatPrice";
 import Image from "next/image";
 import ProductImageMagnifier from "./ProductImageMagnifier";
-import SimpleSlider from "./ProductImageSlider";
+import ProductImageSlider from "./ProductImageSlider";
 
 const ProductDetails = async ({ productId }: { productId: string }) => {
   async function getProductById({ id }: { id: string }) {
@@ -39,6 +39,7 @@ const ProductDetails = async ({ productId }: { productId: string }) => {
   // Product Details
   const productDataById = await getProductById({ id: productId });
   const image = productDataById.image;
+  const images = productDataById.images;
   const productName = productDataById.name;
   const rating = productDataById.rating;
   const sold = productDataById.sold;
@@ -56,7 +57,7 @@ const ProductDetails = async ({ productId }: { productId: string }) => {
 
   return (
     <main className="main-body h-auto bg-gray-200 py-6 text-black">
-      <SimpleSlider />
+      <ProductImageSlider />
       {/* Product Details */}
       <section className="main-content">
         <div className="bg-white p-4 shadow">
@@ -67,6 +68,7 @@ const ProductDetails = async ({ productId }: { productId: string }) => {
               <ProductImageMagnifier imageSrc={image} />
 
               {/* Sub Images */}
+              {/* <ProductImageSlider /> */}
               <div className="relative mt-4 grid grid-cols-5 gap-1">
                 <button className="absolute left-0 top-1/2 z-10 h-9 w-5 -translate-y-1/2 bg-black/20 text-white">
                   <svg
