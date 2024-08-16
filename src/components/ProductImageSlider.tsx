@@ -7,26 +7,30 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ImageSlide } from "@/types/image.slide.type";
 
 const Prev = (props: any) => {
-  const { onClick } = props;
-  //This onClick prop is native to React Slick
+  const { onClick } = props; //This onClick prop is native to React Slick
+
   return (
     <button
       onClick={onClick}
-      className={`w-fit top-1/2 opacity-0 lg:opacity-100 text-primary flex items-center justify-center rounded-full bg-background/20 hover:bg-background/30 p-1 shadow-md absolute z-10 left-5`}
+      className={
+        "absolute left-0 top-1/2 z-10 h-9 w-5 -translate-y-1/2 bg-black/20 text-white"
+      }
     >
-      <ChevronLeft width={40} height={40} color="white" strokeWidth={2} />
+      <ChevronLeft width={20} height={20} strokeWidth={1.5} />
     </button>
   );
 };
 const Next = (props: any) => {
-  const { onClick } = props;
-  //This onClick prop is native to React Slick
+  const { onClick } = props; //This onClick prop is native to React Slick
+
   return (
     <button
       onClick={onClick}
-      className={`w-fit top-1/2 opacity-0 lg:opacity-100 text-primary flex items-center justify-center rounded-full bg-background/20 hover:bg-background/30 p-1 shadow-md absolute z-10 right-5`}
+      className={
+        "absolute right-0 top-1/2 z-10 h-9 w-5 -translate-y-1/2 bg-black/20 text-white"
+      }
     >
-      <ChevronRight width={40} height={40} color="white" strokeWidth={2} />
+      <ChevronRight width={20} height={20} strokeWidth={1.5} />
     </button>
   );
 };
@@ -41,31 +45,42 @@ export default function ProductImageSlider({
     draggable: false,
     fade: false,
     infinite: false,
-    speed: 200,
-    slidesToShow: 3,
+    speed: 100,
+    slidesToShow: 5,
     slidesToScroll: 1,
     prevArrow: <Prev />,
     nextArrow: <Next />,
   };
 
   return (
-    <div className="relative">
-      <Slider {...settings}>
-        {ImageSlideList?.map((imageSlide) => (
-          <div
-            key={imageSlide.alt}
-            className="w-full h-[240px] md:h-[350px] lg:h-[500px] overflow-hidden relative"
-          >
-            <Image
-              className="w-full h-full object-cover object-center"
-              src={imageSlide.src}
-              alt={imageSlide.alt}
-              width={100}
-              height={100}
-            />
-          </div>
-        ))}
-      </Slider>
-    </div>
+    <Slider {...settings}>
+      <div className="relative mt-4 grid grid-cols-5 gap-1">
+        
+        <div className="relative w-full pt-[100%]">
+          {/* <Image
+            src={image}
+            alt={productName}
+            width={1024}
+            height={1024}
+            className="absolute left-0 top-0 h-full w-full bg-white object-cover"
+          /> */}
+        </div>
+        
+      </div>
+      {ImageSlideList?.map((imageSlide) => (
+        <div
+          key={imageSlide.alt}
+          className="w-full h-[240px] md:h-[350px] lg:h-[500px] overflow-hidden relative"
+        >
+          <Image
+            className="w-full h-full object-cover object-center"
+            src={imageSlide.src}
+            alt={imageSlide.alt}
+            width={100}
+            height={100}
+          />
+        </div>
+      ))}
+    </Slider>
   );
 }

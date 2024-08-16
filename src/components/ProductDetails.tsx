@@ -48,16 +48,7 @@ const ProductDetails = async ({ productId }: { productId: string }) => {
     src: imageUrl,
     alt: `variant ${index}`,
   }));
-  console.log(ImageSlideList);
-
-  // const ImageSlide: ImageSlide = {
-  //   alt: "Test",
-  //   src: "/assets/images/example.jpg",
-  // };
-  // const ImageSlideList: ImageSlide[] = Array.from(
-  //   { length: 10 },
-  //   () => ImageSlide
-  // );
+  // console.log(ImageSlideList);
 
   // Product Details
   const productName = productDataById.name;
@@ -77,61 +68,17 @@ const ProductDetails = async ({ productId }: { productId: string }) => {
 
   return (
     <main className="main-body h-auto bg-gray-200 py-6 text-black">
-      <ProductImageSlider ImageSlideList={ImageSlideList} />
       {/* Product Details */}
       <section className="main-content">
         <div className="bg-white p-4 shadow">
           <div className="grid grid-cols-12 gap-9">
             {/* Image */}
             <div className="col-span-5">
-              {/* Main Image */}
+              {/* Image Magnifier*/}
               <ProductImageMagnifier imageSrc={image} />
 
-              {/* Sub Images */}
-              {/* <ProductImageSlider /> */}
-              <div className="relative mt-4 grid grid-cols-5 gap-1">
-                <button className="absolute left-0 top-1/2 z-10 h-9 w-5 -translate-y-1/2 bg-black/20 text-white">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="h-5 w-5"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M15.75 19.5L8.25 12l7.5-7.5"
-                    ></path>
-                  </svg>
-                </button>
-                <div className="relative w-full pt-[100%]">
-                  <Image
-                    src={image}
-                    alt={productName}
-                    width={1024}
-                    height={1024}
-                    className="absolute left-0 top-0 h-full w-full bg-white object-cover"
-                  />
-                </div>
-                <button className="absolute right-0 top-1/2 z-10 h-9 w-5 -translate-y-1/2 bg-black/20 text-white">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="h-5 w-5"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M8.25 4.5l7.5 7.5-7.5 7.5"
-                    ></path>
-                  </svg>
-                </button>
-              </div>
+              {/* Image Slider */}
+              <ProductImageSlider ImageSlideList={ImageSlideList} />
             </div>
             {/* Text */}
             <div className="col-span-7">
