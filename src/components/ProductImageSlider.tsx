@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Slider from "react-slick";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -13,7 +13,7 @@ const Prev = (props: any) => {
     <button
       onClick={onClick}
       className={
-        "absolute left-0 top-1/2 z-10 h-9 w-5 -translate-y-1/2 bg-black/20 text-white"
+        "absolute left-0 top-1/2 z-10 h-9 w-5 -translate-y-1/2 bg-black/20 text-white hover:cursor-pointer"
       }
     >
       <ChevronLeft width={20} height={20} strokeWidth={1.5} />
@@ -27,7 +27,7 @@ const Next = (props: any) => {
     <button
       onClick={onClick}
       className={
-        "absolute right-0 top-1/2 z-10 h-9 w-5 -translate-y-1/2 bg-black/20 text-white"
+        "absolute right-0 top-1/2 z-10 h-9 w-5 -translate-y-1/2 bg-black/20 text-white hover:cursor-pointer"
       }
     >
       <ChevronRight width={20} height={20} strokeWidth={1.5} />
@@ -52,28 +52,22 @@ export default function ProductImageSlider({
     nextArrow: <Next />,
   };
 
+  const [current, setCurrent] = useState("variant 0"); // Initial the first image is the chosen image
+
   return (
-    <Slider {...settings}>
-      <div className="relative mt-4 grid grid-cols-5 gap-1">
-        
-        <div className="relative w-full pt-[100%]">
-          {/* <Image
-            src={image}
-            alt={productName}
-            width={1024}
-            height={1024}
-            className="absolute left-0 top-0 h-full w-full bg-white object-cover"
-          /> */}
-        </div>
-        
-      </div>
+    <Slider {...settings} className="mt-4">
       {ImageSlideList?.map((imageSlide) => (
         <div
           key={imageSlide.alt}
-          className="w-full h-[240px] md:h-[350px] lg:h-[500px] overflow-hidden relative"
+          className={`relative w-full pt-[100%] border-2 ${
+            current === imageSlide.alt
+              ? "border-orange-primary"
+              : "border-white"
+          }`}
+          onMouseEnter={() => setCurrent(imageSlide.alt)}
         >
           <Image
-            className="w-full h-full object-cover object-center"
+            className="absolute left-0 top-0 h-full w-full bg-white object-cover"
             src={imageSlide.src}
             alt={imageSlide.alt}
             width={100}
