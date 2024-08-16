@@ -4,6 +4,7 @@ import React from "react";
 import Slider from "react-slick";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ImageSlide } from "@/types/image.slide";
 
 const Prev = (props: any) => {
   const { onClick } = props;
@@ -31,49 +32,67 @@ const Next = (props: any) => {
 };
 
 export default function SimpleSlider() {
+  //dummy data
+  const dataImageSlide: ImageSlide[] = [
+    {
+      alt: "foto sekolah sman 1 mandirancan",
+      image: "/assets/images/example.jpg",
+    },
+    {
+      alt: "kendaraan sekolah",
+      image: "/assets/images/example.jpg",
+    },
+    {
+      alt: "taman bunga sakura di sman 1 mandirancan",
+      image: "/assets/images/example.jpg",
+    },
+    {
+      alt: "trafic jalan dekat sman 1 mandirancan",
+      image: "/assets/images/example.jpg",
+    },
+    {
+      alt: "1trafic jalan dekat sman 1 mandirancan",
+      image: "/assets/images/example.jpg",
+    },
+    {
+      alt: "2trafic jalan dekat sman 1 mandirancan",
+      image: "/assets/images/example.jpg",
+    },
+    {
+      alt: "3trafic jalan dekat sman 1 mandirancan",
+      image: "/assets/images/example.jpg",
+    },
+  ];
   const settings = {
-    autoplaySpeed: 3500,
+    dots: false,
+    draggable: false,
     fade: false,
-    autoplay: true,
-    infinite: true,
-    speed: 500,
+    infinite: false,
+    speed: 200,
     slidesToShow: 3,
     slidesToScroll: 1,
-    pauseOnHover: false,
-    pauseOnFocus: false,
     prevArrow: <Prev />,
     nextArrow: <Next />,
   };
 
   return (
-    <Slider {...settings}>
-      <div>
-        <h3>1</h3>
-      </div>
-      <div>
-        <h3>2</h3>
-      </div>
-      <div>
-        <h3>3</h3>
-      </div>
-      <div>
-        <h3>4</h3>
-      </div>
-      <div>
-        <h3>5</h3>
-      </div>
-      <div>
-        <h3>6</h3>
-      </div>
-      {/* <div className="relative w-full pt-[100%]">
-        <Image
-          src="/assets/images/example.jpg"
-          alt="Example Image"
-          width={1024}
-          height={1024}
-          className="absolute left-0 top-0 h-full w-full bg-white object-cover"
-        />
-      </div> */}
-    </Slider>
+    <div className="relative">
+      <Slider {...settings}>
+        {dataImageSlide?.map((hero) => (
+          <div
+            key={hero.alt}
+            className="w-full h-[240px] md:h-[350px] lg:h-[500px] overflow-hidden relative"
+          >
+            <Image
+              className="w-full h-full object-cover object-center"
+              src={hero.image}
+              alt={hero.alt}
+              width={100}
+              height={100}
+            />
+          </div>
+        ))}
+      </Slider>
+    </div>
   );
 }
