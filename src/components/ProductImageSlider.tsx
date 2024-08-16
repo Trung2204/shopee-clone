@@ -4,7 +4,7 @@ import React from "react";
 import Slider from "react-slick";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { ImageSlide } from "@/types/image.slide";
+import { ImageSlide } from "@/types/image.slide.type";
 
 const Prev = (props: any) => {
   const { onClick } = props;
@@ -31,38 +31,11 @@ const Next = (props: any) => {
   );
 };
 
-export default function ProductImageSlider() {
-  //dummy data
-  const dataImageSlide: ImageSlide[] = [
-    {
-      alt: "foto sekolah sman 1 mandirancan",
-      image: "/assets/images/example.jpg",
-    },
-    {
-      alt: "kendaraan sekolah",
-      image: "/assets/images/example.jpg",
-    },
-    {
-      alt: "taman bunga sakura di sman 1 mandirancan",
-      image: "/assets/images/example.jpg",
-    },
-    {
-      alt: "trafic jalan dekat sman 1 mandirancan",
-      image: "/assets/images/example.jpg",
-    },
-    {
-      alt: "1trafic jalan dekat sman 1 mandirancan",
-      image: "/assets/images/example.jpg",
-    },
-    {
-      alt: "2trafic jalan dekat sman 1 mandirancan",
-      image: "/assets/images/example.jpg",
-    },
-    {
-      alt: "3trafic jalan dekat sman 1 mandirancan",
-      image: "/assets/images/example.jpg",
-    },
-  ];
+export default function ProductImageSlider({
+  ImageSlideList,
+}: {
+  ImageSlideList: ImageSlide[];
+}) {
   const settings = {
     dots: false,
     draggable: false,
@@ -78,15 +51,15 @@ export default function ProductImageSlider() {
   return (
     <div className="relative">
       <Slider {...settings}>
-        {dataImageSlide?.map((hero) => (
+        {ImageSlideList?.map((imageSlide) => (
           <div
-            key={hero.alt}
+            key={imageSlide.alt}
             className="w-full h-[240px] md:h-[350px] lg:h-[500px] overflow-hidden relative"
           >
             <Image
               className="w-full h-full object-cover object-center"
-              src={hero.image}
-              alt={hero.alt}
+              src={imageSlide.src}
+              alt={imageSlide.alt}
               width={100}
               height={100}
             />

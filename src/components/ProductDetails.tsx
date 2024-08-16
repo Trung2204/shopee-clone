@@ -6,6 +6,7 @@ import { formatPrice } from "@/utils/formatPrice";
 import Image from "next/image";
 import ProductImageMagnifier from "./ProductImageMagnifier";
 import ProductImageSlider from "./ProductImageSlider";
+import { ImageSlide } from "@/types/image.slide.type";
 
 const ProductDetails = async ({ productId }: { productId: string }) => {
   async function getProductById({ id }: { id: string }) {
@@ -55,9 +56,17 @@ const ProductDetails = async ({ productId }: { productId: string }) => {
   });
   const products: Product[] = productDataByCategory.products;
 
+  const ImageSlide: ImageSlide = {
+    alt: "Test",
+    src: "/assets/images/example.jpg",
+  };
+  const ImageSlideList: ImageSlide[] = Array.from(
+    { length: 10 },
+    () => ImageSlide
+  );
   return (
     <main className="main-body h-auto bg-gray-200 py-6 text-black">
-      <ProductImageSlider />
+      <ProductImageSlider ImageSlideList={ImageSlideList} />
       {/* Product Details */}
       <section className="main-content">
         <div className="bg-white p-4 shadow">
