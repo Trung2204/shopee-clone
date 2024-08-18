@@ -44,11 +44,11 @@ const ProductDetails = async ({ productId }: { productId: string }) => {
   const image = productDataById.image;
   // Image Slider
   const images = productDataById.images;
-  const ImageSlideList: ImageSlide[] = images.map((imageUrl, index) => ({
+  const imageSlideList: ImageSlide[] = images.map((imageUrl, index) => ({
     src: imageUrl,
     alt: `variant ${index}`,
   }));
-  // console.log(ImageSlideList);
+  // console.log(imageSlideList);
 
   // Product Details
   const productName = productDataById.name;
@@ -78,7 +78,7 @@ const ProductDetails = async ({ productId }: { productId: string }) => {
               <ProductImageMagnifier imageSrc={image} />
 
               {/* Image Slider */}
-              <ProductImageSlider ImageSlideList={ImageSlideList} />
+              <ProductImageSlider imageSlideList={imageSlideList} />
             </div>
             {/* Text */}
             <div className="col-span-7">

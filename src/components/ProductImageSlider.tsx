@@ -36,9 +36,9 @@ const Next = (props: any) => {
 };
 
 export default function ProductImageSlider({
-  ImageSlideList,
+  imageSlideList,
 }: {
-  ImageSlideList: ImageSlide[];
+  imageSlideList: ImageSlide[];
 }) {
   const settings = {
     dots: false,
@@ -56,7 +56,7 @@ export default function ProductImageSlider({
 
   return (
     <Slider {...settings} className="mt-4">
-      {ImageSlideList?.map((imageSlide) => (
+      {imageSlideList?.map((imageSlide) => (
         <div
           key={imageSlide.alt}
           className={`relative w-full pt-[100%] border-2 ${
