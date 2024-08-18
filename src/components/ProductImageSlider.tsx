@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 
 import React, { useState } from "react";
 import Slider from "react-slick";
@@ -37,8 +37,10 @@ const Next = (props: any) => {
 
 export default function ProductImageSlider({
   imageSlideList,
+  onImageHover,
 }: {
   imageSlideList: ImageSlide[];
+  onImageHover: (src: string) => void;
 }) {
   const settings = {
     dots: false,
@@ -64,7 +66,10 @@ export default function ProductImageSlider({
               ? "border-orange-primary"
               : "border-white"
           }`}
-          onMouseEnter={() => setCurrent(imageSlide.alt)}
+          onMouseEnter={() => {
+            setCurrent(imageSlide.alt);
+            onImageHover(imageSlide.src);
+          }}
         >
           <Image
             className="absolute left-0 top-0 h-full w-full bg-white object-cover"

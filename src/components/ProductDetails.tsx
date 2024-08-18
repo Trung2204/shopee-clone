@@ -7,6 +7,7 @@ import Image from "next/image";
 import ProductImageMagnifier from "./ProductImageMagnifier";
 import ProductImageSlider from "./ProductImageSlider";
 import { ImageSlide } from "@/types/image.slide.type";
+import ProductImageWrapper from "./ProductImageWrapper";
 
 const ProductDetails = async ({ productId }: { productId: string }) => {
   async function getProductById({ id }: { id: string }) {
@@ -48,7 +49,6 @@ const ProductDetails = async ({ productId }: { productId: string }) => {
     src: imageUrl,
     alt: `variant ${index}`,
   }));
-  // console.log(imageSlideList);
 
   // Product Details
   const productName = productDataById.name;
@@ -74,11 +74,15 @@ const ProductDetails = async ({ productId }: { productId: string }) => {
           <div className="grid grid-cols-12 gap-9">
             {/* Image */}
             <div className="col-span-5">
+              <ProductImageWrapper
+                initialImage={image}
+                imageSlideList={imageSlideList}
+              />
               {/* Image Magnifier*/}
-              <ProductImageMagnifier imageSrc={image} />
+              {/* <ProductImageMagnifier imageSrc={image} /> */}
 
               {/* Image Slider */}
-              <ProductImageSlider imageSlideList={imageSlideList} />
+              {/* <ProductImageSlider imageSlideList={imageSlideList} /> */}
             </div>
             {/* Text */}
             <div className="col-span-7">
