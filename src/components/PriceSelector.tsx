@@ -1,10 +1,10 @@
 "use client";
 
-import { searchParamsProps } from "@/types/search.params.type";
+import { Props } from "@/types/props.type";
 import { usePathname, useRouter } from "next/navigation";
 import React, { ChangeEvent, useState } from "react";
 
-function PriceSelector({ searchParams }: searchParamsProps) {
+function PriceSelector({ searchParams }: Props) {
   const router = useRouter();
   const path = usePathname();
   const [selectedPrice, setSelectedPrice] = useState(""); // Initialize with an empty string

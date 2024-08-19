@@ -2,11 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import React from "react";
 import { Product } from "@/types/product.type";
-import {
-  FetchedCategories,
-  FetchedData,
-  FetchedProductById,
-} from "@/types/fetched.data.type";
+import { FetchedCategories, FetchedData } from "@/types/fetched.data.type";
 import ProductCardList from "./ProductCardList";
 import PriceSelector from "./PriceSelector";
 import { Category } from "@/types/category.type";
@@ -83,8 +79,6 @@ async function getCategories() {
   console.log("getCategories", fetchedData.message);
   return fetchedData.data;
 }
-
-
 
 const MainSSR = async (props: Props) => {
   const { searchParams } = props;
