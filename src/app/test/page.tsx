@@ -1,21 +1,13 @@
 "use client";
 
 import { UserOutlined } from "@ant-design/icons";
-import type { MenuProps, PaginationProps, TableProps } from "antd";
-import {
-  Breadcrumb,
-  Layout,
-  Menu,
-  theme,
-  Pagination,
-  Spin,
-  Space,
-  Table,
-} from "antd";
+import type { MenuProps, TableProps } from "antd";
+import { Breadcrumb, Layout, Menu, theme, Spin, Space, Table } from "antd";
 
 import React, { useEffect, useState } from "react";
 
 import { useQuery } from "@tanstack/react-query";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -59,9 +51,26 @@ const items: MenuItem[] = [getItem("User", "sub1", <UserOutlined />)];
 // }
 
 const TestPage: React.FC = () => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const currentPageParam = searchParams.get("page");
+  const currentPage = currentPageParam ? parseInt(currentPageParam) : 1;
+
+  const pageSizeParam = searchParams.get("limit");
+  const pageSize = pageSizeParam ? parseInt(pageSizeParam) : 10;
+
+  const handlePagePagination = (page: number, pageSize: number) => {
+    // Update URL parameters
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", page.toString());
+    params.set("limit", pageSize.toString());
+    router.push(`?${params.toString()}`);
+  };
+
   const [collapsed, setCollapsed] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const [pageSize, setPageSize] = useState(10);
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -126,11 +135,11 @@ const TestPage: React.FC = () => {
       }
     };
 
-    const timer = setTimeout(() => {
-      fetchUsers();
-    }, 2000);
+    // const timer = setTimeout(() => {
+    fetchUsers();
+    // }, 2000);
 
-    return () => clearTimeout(timer);
+    // return () => clearTimeout(timer);
   }, []);
 
   // ERROR
@@ -146,11 +155,6 @@ const TestPage: React.FC = () => {
   // if (error) return <h2>{error.message}</h2>;
   // // LOADING
   // if (isFetching) return <h2 className="text-center mt-8">Loading....</h2>;
-
-  // Calculate the indices for slicing the data based on the current page and page size
-  const startIndex = (currentPage - 1) * pageSize;
-  const endIndex = startIndex + pageSize;
-  const paginatedData = data.slice(startIndex, endIndex);
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -183,11 +187,8 @@ const TestPage: React.FC = () => {
             }}
           >
             {loading ? (
-              // flex  justify-center items-center min-h-screen space-y-4
               <div className="flex flex-col justify-center items-center min-h-[200px] space-y-4">
-                <Spin size="large" tip="Loading...">
-                  {/* You can add additional content or leave it empty to center the spinner */}
-                </Spin>
+                <Spin size="large" />
                 <h2 className="text-center text-xl font-semibold text-gray-600">
                   Please wait
                 </h2>
@@ -195,28 +196,30 @@ const TestPage: React.FC = () => {
             ) : (
               <Table
                 columns={columns}
-                dataSource={paginatedData}
-                pagination={false}
+                dataSource={data}
+                pagination={{
+                  current: currentPage,
+                  pageSize: pageSize,
+                  pageSizeOptions: ["10", "20", "30"],
+                  showSizeChanger: true,
+                  total: data.length,
+                  showTotal: (total, range) => (
+                    <>
+                      Total {total} items
+                      <br />
+                      Showing {range[0]}-{range[1]} of {total} items
+                    </>
+                  ),
+                  onChange(page, size) {
+                    handlePagePagination(page, size);
+                  },
+                  onShowSizeChange(current, size) {
+                    handlePagePagination(current, size);
+                  },
+                }}
               />
             )}
           </div>
-          {!loading && (
-            <Pagination
-              // className="mt-10"
-              style={{ marginTop: "2.5rem" }}
-              align="center"
-              showSizeChanger
-              onShowSizeChange={(current, size) => {
-                setPageSize(size);
-                setCurrentPage(current);
-              }}
-              onChange={(page) => setCurrentPage(page)}
-              current={currentPage}
-              total={data.length}
-              pageSize={pageSize}
-              pageSizeOptions={[10, 20, 30]}
-            />
-          )}
         </Content>
         <Footer style={{ textAlign: "center" }}>
           Ant Design ©{new Date().getFullYear()} Created by Ant UED
