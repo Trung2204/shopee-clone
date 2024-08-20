@@ -5,6 +5,10 @@ import "@/styles/globals.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+import { AntdRegistry } from "@ant-design/nextjs-registry";
+
+import ReactQueryProvider from "@/utils/ReactQueryProvider";
+
 export const viewport: Viewport = {
   themeColor: "black",
   width: "device-width",
@@ -24,7 +28,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <ReactQueryProvider>
+          <AntdRegistry>{children}</AntdRegistry>
+        </ReactQueryProvider>
+      </body>
     </html>
   );
 }

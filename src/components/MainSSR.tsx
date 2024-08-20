@@ -21,6 +21,21 @@ type ApiProductsRequestParams = {
 };
 
 // Fetch data from API
+export async function getProductsTesting() {
+  const res = await fetch(
+    `https://api-ecom.duthanhduoc.com/products?page=1&limit=20`
+  );
+
+  if (!res.ok) {
+    // This will activate the closest `error.js` Error Boundary
+    throw new Error("Failed to fetch data");
+  }
+
+  const fetchedData: FetchedData = await res.json();
+  console.log("getProductsTesting", fetchedData.message);
+  return fetchedData.data.products;
+}
+
 async function getProducts({
   page,
   limit,

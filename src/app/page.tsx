@@ -1,5 +1,5 @@
 import Header from "@/components/Header";
-import Main from "@/components/Main";
+// import Main from "@/components/Main";
 import Footer from "@/components/Footer";
 import { Fragment } from "react";
 import MainSSR from "@/components/MainSSR";
