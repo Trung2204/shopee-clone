@@ -69,8 +69,6 @@ const TestPage: React.FC = () => {
   };
 
   const [collapsed, setCollapsed] = useState(false);
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const [pageSize, setPageSize] = useState(10);
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -135,11 +133,7 @@ const TestPage: React.FC = () => {
       }
     };
 
-    // const timer = setTimeout(() => {
     fetchUsers();
-    // }, 2000);
-
-    // return () => clearTimeout(timer);
   }, []);
 
   // ERROR
